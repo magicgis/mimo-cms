@@ -1,0 +1,70 @@
+/* CSS Document */
+body{ background:#fff; width:950px; font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#333; margin:0 auto; padding:0; line-height:24px;}
+h1,h2,h3,h4,ul,p{ padding:0; margin:0;}
+ul,li{ list-style-type:none;}
+img{ border:0;}
+.clear{ clear:both;}
+
+/* Body */
+.head{ height:60px;}
+.logo{ float:left; width:190px;}
+.head_word a{ float:right; width:75px; color:#aaa; text-decoration:none;}
+.center{ margin:10px 0 0;}
+.left { width:600px; height:310px;float:left; margin:36px 0;}
+
+.right { width:320px; margin-top:0px; margin-left:20px;padding-bottom:10px;display:inline; background:#FFF; overflow:hidden; float:left;}
+.loginbg{ width:320px; height:385px; overflow:hidden;}
+.login_zliao{ height:210px; margin-left:20px; margin-top:50px; text-align:left; width:290px;}
+
+.btn {
+    height: 32px;
+    margin-bottom: 0;
+    margin-left: 70px;
+    margin-right: 0;
+    margin-top: 25px;
+    position: absolute;
+    width: 192px;
+}
+.user {
+    color: #000000;
+    float: left;
+    font-family: "宋体";
+    font-size: 13px;
+    font-variant: inherit;
+    height: 26px;
+    margin-left: 10px;
+    margin-top: 12px;
+    width: 270px;
+}
+.password {
+    color: #000000;
+    float: left;
+    font-family: "宋体";
+    font-size: 13px;
+    margin-left: 10px;
+    margin-top: 12px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 280px;
+}
+
+.input1{ float:left; width:180px;}
+.input2{ float:left; width:90px;}
+.logo_wk_tijiao {
+    display: inline;
+    float: left;
+    height: 25px;
+    margin-top: 50px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-left: 60px !important;
+    text-align: left;
+    width: 90px;
+}
+.font1{ width:60px; float:left;}
+.aa a{ color:#0066FF; width:50px; float:right; margin-top:38px; margin-right:20px; text-decoration:none;}
+.login_reg{ text-align:center;padding-top:10px;}
+.login_reg p{ font-size:13px;}
+/* Body End*/
+
+.user_text{ height:18px; line-height:18px; padding-left:70px; width: 210px; float:left; margin-top:5px;color:red;}

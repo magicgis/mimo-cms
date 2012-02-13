@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.mimo.cms.domain.channel.Channel" alias="Channel" />
+		<typeAlias type="com.mimo.cms.domain.template.Template" alias="Template" />
+		<typeAlias type="com.mimo.cms.domain.article.Article" alias="Article" />
+		<typeAlias type="com.mimo.cms.domain.article.ArticleComment" alias="ArticleComment" />
+		<typeAlias type="com.mimo.cms.domain.article.ArticleAttachment" alias="ArticleAttachment" />
+		<typeAlias type="com.mimo.cms.domain.article.ArticleMiningTask" alias="ArticleMiningTask" />
+		<typeAlias type="com.mimo.cms.domain.guestbook.Guestbook" alias="Guestbook" />
+		<typeAlias type="com.mimo.cms.domain.MonitoringRecord" alias="MonitoringRecord" />
+		<typeAlias type="com.mimo.cms.domain.resource.RecycleResourceObject" alias="RecycleResource" />
+		
+		<typeAlias type="com.mimo.cms.domain.security.User" alias="User" />
+		<typeAlias type="com.mimo.cms.domain.security.Role" alias="Role" />
+		<typeAlias type="com.mimo.cms.domain.security.Authority" alias="Authority" />
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.mimo.core.orm.mybatis.MybatisPagePlugin">
+			<property name="dialect" value="com.mimo.core.orm.dialect.impl.MySQLDialect" />
+		</plugin>
+	</plugins>
+</configuration>
