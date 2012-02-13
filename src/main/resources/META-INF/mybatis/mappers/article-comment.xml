@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mimo.cms.articleComment">
+
+<resultMap type="ArticleComment" id="articleCommentResult">
+	<id property="id" column="id"/>
+	<result property="author" column="author"/>
+	<result property="content" column="content"/>
+	<result property="createTime" column="create_time"/>
+	<association property="article" column="article_id" javaType="Article" resultMap="articleOnCommentResult" />
+</resultMap>
+
+<resultMap type="Article" id="articleOnCommentResult">
+	<id property="id" column="article_id"/>
+	<result property="title" column="article_title"/>
+</resultMap>
+
+<sql id="commonSelect">
+	select   
+		self.*,
+		article.id as article_id,
+		article.title as article_title 
+	from mimo_cms_article_comment self 
+	left join mimo_cms_article article on self.article_id=article.id 
+</sql>
+
+<insert id="save" keyProperty="id" useGeneratedKeys="true" >
+	insert into mimo_cms_article_comment(author,content,create_time,article_id)
+				values(#{author},#{content},#{createTime},#{article.id})
+</insert>
+<update id="update" >
+	update mimo_cms_article_comment  
+			set author=#{author},content=#{content},article_id=#{article.id} 
+			where id=#{id}
+</update>
+
+<delete id="delete" >
+	delete from mimo_cms_article_comment where id=#{id}
+</delete>
+
+<select id="get" resultMap="articleCommentResult">
+	<include refid="commonSelect"/>
+	where self.id=#{id}
+</select>
+<select id="query" resultMap="articleCommentResult">
+	<include refid="commonSelect"/>
+	order by self.create_time desc
+</select>
+<select id="queryPage" resultMap="articleCommentResult">
+	<include refid="commonSelect"/>
+	order by self.create_time desc 
+</select>
+</mapper>
