@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.mimo.cms.infrastruture.safe.MD5HashUtils;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 import com.mimo.util.ConvertUtils;
 
@@ -179,8 +180,13 @@ public class User extends AbstractLifecycleAwareObject<User> {
 	 */
 	@Override
 	protected boolean beforeCreate() {
-		mergeRoles();
+		mergeRoles().encodePassword();
 		return true;
+	}
+
+	private User encodePassword() {
+		String md5 = MD5HashUtils.asMD5(getPassword(), getUsername());
+		return setPassword(md5);
 	}
 
 	/*
@@ -190,7 +196,7 @@ public class User extends AbstractLifecycleAwareObject<User> {
 	 */
 	@Override
 	protected boolean beforeModify() {
-		mergeRoles();
+		mergeRoles().encodePassword();
 		return true;
 	}
 

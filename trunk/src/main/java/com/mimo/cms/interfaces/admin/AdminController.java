@@ -15,6 +15,9 @@ import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mimo.cms.infrastruture.safe.MD5HashUtils;
+
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
@@ -70,6 +73,7 @@ public class AdminController {
 		String username = WebUtils.getCleanParam(request, "username");
 		String password = WebUtils.getCleanParam(request, "password");
 
+		String passwordAsMd5 = MD5HashUtils.asMD5(password, username);
 		String rememberMeAsString = WebUtils.getCleanParam(request, "rememberMe");
 		boolean rememberMe = false;
 		if (null != rememberMeAsString) {
@@ -77,7 +81,7 @@ public class AdminController {
 		}
 
 		String host = request.getRemoteHost();
-		return new UsernamePasswordToken(username, password, rememberMe, host);
+		return new UsernamePasswordToken(username, passwordAsMd5, rememberMe, host);
 	}
 
 	private int translateException(Exception e) {
