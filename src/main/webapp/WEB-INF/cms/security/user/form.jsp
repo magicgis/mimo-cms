@@ -8,6 +8,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+	$(function(){
+		var currentUrl = document.URL;
+		if(currentUrl && currentUrl.indexOf("edit") !== -1){
+			$("#username").attr("readonly","readonly");
+		}
+	});
+</script>
 </head>
 <body>
 <form:form method="post" modelAttribute="user" id="form">
@@ -23,13 +31,13 @@
 <tr>
 <td width="240" align="right" nowrap="nowrap"><span class="red">*</span>用户名：</td>
 <td colspan="2">
-	<form:input path="username" cssClass="input5 fontMar" />
+	<form:input path="username" id="username" cssClass="input5 fontMar" />
 </td>
 </tr>
 <tr>
 <td width="240" align="right" nowrap="nowrap">密码：</td>
 <td colspan="2">
-	<form:input path="password" cssClass="input5 fontMar" />
+	<input type="password" id="password" name="password" class="input5 fontMar" />
 </td>
 </tr>
 <tr>
