@@ -1,10 +1,15 @@
 package com.mimo.cms.interfaces.admin;
 
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
-
 import com.mimo.cms.application.security.RoleService;
 import com.mimo.cms.application.security.UserService;
 import com.mimo.cms.domain.security.Role;
@@ -24,6 +27,7 @@ import com.mimo.cms.interfaces.util.JsonMessage;
 import com.mimo.core.orm.Page;
 import com.mimo.core.web.AjaxUtils;
 import com.mimo.core.web.controller.CrudControllerSupport;
+import com.mimo.util.AssertUtils;
 import com.mimo.util.EntityUtils;
 
 /**
@@ -89,7 +93,10 @@ public class SecurityUserController extends CrudControllerSupport<String, User> 
 		try {
 
 			User entity = userService.lazyGet(id);
+			String oldUsername = entity.getUsername();
 			bind(request, entity);
+			boolean usernameNotModify = StringUtils.equals(oldUsername, entity.getUsername());
+			AssertUtils.isTrue(usernameNotModify, new UnsupportedOperationException("Username can't modify!"));
 			entity.modify();
 		} catch (Exception e) {
 			return null;
