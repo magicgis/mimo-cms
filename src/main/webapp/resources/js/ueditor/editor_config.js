@@ -10,9 +10,9 @@
     //var URL = window.UEDITOR_HOME_URL || '../';
 	// var tmp = window.location.pathname,
 	// URL= tmp.substr(0,tmp.lastIndexOf("\/")+1).replace("_examples/","");//这里你可以配置成ueditor目录在您网站的相对路径或者绝对路径（指以http开头的绝对路径）
-    var URL = "/mimo/resources/js/ueditor/";
+    var URL = "";
     UEDITOR_CONFIG = {
-        imagePath:URL + "server/upload/", //图片文件夹所在的路径，用于显示时修正后台返回的图片url！具体图片保存路径需要在后台设置。！important
+        imagePath:"", //图片文件夹所在的路径，用于显示时修正后台返回的图片url！具体图片保存路径需要在后台设置。！important
         compressSide:0, //等比压缩的基准，确定maxImageSideLength参数的参照对象。0为按照最长边，1为按照宽度，2为按照高度
         maxImageSideLength:900, //上传图片最大允许的边长，超过会自动等比缩放,不缩放就设置一个比较大的值
         relativePath:true,      //是否开启相对路径。开启状态下所有本地图片的路径都将以相对路径形式进行保存.强烈建议开启！

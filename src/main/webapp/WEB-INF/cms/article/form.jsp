@@ -6,15 +6,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="${ctx }/resources/js/markitup/jquery.markitup.js"></script>
-<link rel="stylesheet" type="text/css" href="${ctx }/resources/js/markitup/skins/markitup/style.css" />
-<link rel="stylesheet" type="text/css" href="${ctx }/resources/js/markitup/sets/default/style.css" />
 <script type="text/javascript" src="${ctx }/resources/js/ueditor/editor_config.js"></script>
 <script type="text/javascript" src="${ctx }/resources/js/ueditor/editor_all.js"></script>
 <link rel="stylesheet" href="${ctx }/resources/js/ueditor/themes/default/ueditor.css"/>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var editor = new baidu.editor.ui.Editor();
+		
+		// 覆盖全局的URL
+		var URL = "${ctx}/resources/js/ueditor/".replace(/\/+/,"/");
+		UEDITOR_CONFIG.UEDITOR_HOME_URL = URL;
+		var editor = new baidu.editor.ui.Editor({autoHeightEnabled:false,imagePath:"${ctx}"});
 	    editor.render("content");
 	});
 </script>

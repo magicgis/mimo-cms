@@ -22,7 +22,6 @@ import com.mimo.cms.domain.resource.PhotoResourceObject;
 import com.mimo.cms.domain.resource.RecycleResourceObject;
 import com.mimo.cms.domain.resource.ResourceObject;
 import com.mimo.cms.interfaces.util.ConfigureOnWeb;
-import com.mimo.cms.interfaces.util.JsonMessage;
 import com.mimo.core.orm.Page;
 import com.mimo.core.web.WebUtils;
 import com.mimo.core.web.WebUtils.ContentType;
@@ -30,6 +29,7 @@ import com.mimo.core.web.controller.ControllerSupport;
 import com.mimo.util.AssertUtils;
 import com.mimo.util.ExceptionUtils;
 import com.mimo.util.FileUtils;
+import com.mimo.util.PathUtils;
 import com.mimo.util.filecommand.FileCommandInvoker;
 import com.mimo.util.filecommand.impl.MakeFileCommand;
 import com.mimo.util.filecommand.impl.WriteBytesToFileCommand;
@@ -43,10 +43,53 @@ import com.mimo.util.filecommand.impl.WriteBytesToFileCommand;
 @RequestMapping(value = "/photo-resource")
 public class PhotoResourceController extends ControllerSupport {
 
+	public static class PhotoUploadMessage {
+		private String url;
+		private String state;
+
+		private PhotoUploadMessage(){
+		}
+		
+		public String getUrl() {
+			return url;
+		}
+
+		protected PhotoUploadMessage setUrl(String url) {
+			this.url = url;
+			return this;
+		}
+		
+		public String getState() {
+			return state;
+		}
+
+		protected PhotoUploadMessage setState(String state) {
+			this.state = state;
+			return this;
+		}
+		
+		public PhotoUploadMessage success(){
+			return setState("SUCCESS");
+		}
+		
+		public PhotoUploadMessage error(){
+			return setState("ERROR");
+		}
+		
+		public PhotoUploadMessage url(String url){
+			return setUrl(url);
+		}
+		
+		public static PhotoUploadMessage me(){
+			return new PhotoUploadMessage();
+		}
+
+	}
+
 	@Autowired
 	@Qualifier("photo-resource-service")
 	private ResourceService resourceService;
-	
+
 	@Autowired
 	private ConfigureOnWeb confOnWeb;
 
@@ -101,11 +144,11 @@ public class PhotoResourceController extends ControllerSupport {
 				throw new UnsupportedOperationException("Bad pathname!");
 			}
 
-			doUpload(bean, file, conf);
+			String path = PathUtils.asUnix(doUpload(bean, file, conf));
 
-			jsonStringEnclosingWith(response, "%s", JsonMessage.me().success().message("Upload ok!"));
+			jsonStringEnclosingWith(response, "%s", PhotoUploadMessage.me().success().url(path));
 		} catch (Exception e) {
-			jsonStringEnclosingWith(response, "%s", JsonMessage.me().error().message(e.getMessage()));
+			jsonStringEnclosingWith(response, "%s", PhotoUploadMessage.me().error());
 		}
 	}
 
@@ -133,13 +176,15 @@ public class PhotoResourceController extends ControllerSupport {
 		return false;
 	}
 
-	private void doUpload(ResourceObject bean, MultipartFile file, Configure conf) throws IOException {
+	private String doUpload(ResourceObject bean, MultipartFile file, Configure conf) throws IOException {
 		String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		String targetFilePath = FileUtils.joinPaths(conf.getPhotoPath(), bean.getPath(), currentDate, file.getOriginalFilename());
 
 		new FileCommandInvoker().command(new MakeFileCommand(targetFilePath))
 								.command(new WriteBytesToFileCommand(targetFilePath, file.getBytes()))
 								.invoke();
+
+		return StringUtils.substringAfter(targetFilePath, conf.getRootPath());
 	}
 
 	/**

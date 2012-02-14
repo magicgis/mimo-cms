@@ -313,9 +313,8 @@ var flashOptions ={
     deleteFileCallback: 'deleteFileCallback',   // 删除文件的回调
     //startUploadCallback: 'startUploadCallback',  // 开始上传某个文件时的回调
     uploadCompleteCallback: 'uploadCompleteCallback',   // 某个文件上传完成的回调
-    uploadErrorCallback: function (data){
-    	alert(data);
-        //console && console.log(data);
+    uploadErrorCallback: function(data){
+    	
     },  // 某个文件上传失败的回调
     allCompleteCallback: 'allCompleteCallback'// 全部上传完成时的回调
     //changeFlashHeight: 'changeFlashHeight'     // 改变Flash的高度，mode==1的时候才有用
@@ -415,7 +414,7 @@ function insertBatch() {
         tmpObj.title = ci.title;
         tmpObj.floatStyle = align;
         //修正显示时候的地址数据,如果后台返回的是图片的绝对地址，那么此处无需修正
-        tmpObj.data_ue_src = tmpObj.src = editor.options.imagePath + ci.url;
+        tmpObj.data_ue_src = tmpObj.src = (editor.options.imagePath + ci.url).replace(/\/+/,"/");
         imgObjs.push( tmpObj );
     }
     editor.execCommand( "insertImage", imgObjs );
@@ -530,11 +529,14 @@ function selectFileCallback( selectFiles ) {
  * @param    Object/String    服务端返回啥，参数就是啥
  */
 function uploadCompleteCallback( data ) {
-    //debugger
-    //if(console)console.log("上传成功", data);
-    var info = eval( "(" + data.info + ")" );
-    info && imageUrls.push( info );
-    imageCount--;
+	
+	// 在当前的ueditor版本中，服务端返回的json数据必须要有state字段，并且值等于SUCCESS，才回回调此方法
+	var info = eval( "(" + data.info +")" );
+	if(info && info.url ){
+		var imgObj = {title:data.filename,url:info.url};
+		imageUrls.push(imgObj);
+		imageCount --;
+	}
 }
 
 //全部上传完成的回调函数
