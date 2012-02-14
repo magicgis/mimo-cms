@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mimo.cms.guestbook">
+
+<resultMap type="Guestbook" id="guestbookResult">
+	<id property="id" column="id"/>
+	<result property="email" column="email"/>
+	<result property="content" column="content"/>
+	<result property="createTime" column="create_time"/>
+</resultMap>
+
+<sql id="commonSelect">
+	select 
+		self.*
+	from mimo_cms_guestbook self
+</sql>
+
+<insert id="save" keyProperty="id" useGeneratedKeys="true" >
+	insert into mimo_cms_guestbook(email,content,create_time) 
+			values(#{email},#{content},#{createTime})				
+</insert>
+
+<update id="update" >
+	update mimo_cms_guestbook set email=#{email},content=#{content} where id=#{id}
+</update>
+
+<delete id="delete">
+	delete from mimo_cms_guestbook where id=#{id}
+</delete>
+
+<select id="get" resultMap="guestbookResult">
+	<include refid="commonSelect" />
+	where id=#{id}
+</select>
+
+<select id="queryPage" resultMap="guestbookResult">
+	<include refid="commonSelect"/>
+	<where>
+		<if test="params.email != null and params.email != '' ">
+		self.email like concat(concat('%',#{params.email}),'%') 
+		</if>
+	</where>
+	order by self.create_time desc 
+</select>
+</mapper>

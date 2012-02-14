@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mimo.cms.recycleResource">
+
+<resultMap type="RecycleResource" id="recycleResourceResult">
+	<id property="id" column="id"/>
+	<result property="name" column="name"/>
+	<result property="version" column="version"/>
+	<result property="path" column="path"/>
+	<result property="recyclePath" column="recycle_path"/>
+	<result property="createTime" column="create_time"/>
+</resultMap>
+
+<sql id="commonSelect">
+	select 
+		self.*
+	from mimo_cms_recycle_resource self
+</sql>
+
+<insert id="save" keyProperty="id" useGeneratedKeys="true" >
+	insert into mimo_cms_recycle_resource(name,version,path,recycle_path,create_time) 
+			values(#{name},#{version},#{path},#{recyclePath},#{createTime})				
+</insert>
+
+<delete id="delete">
+	delete from mimo_cms_recycle_resource where id=#{id}
+</delete>
+
+<select id="get" resultMap="recycleResourceResult">
+	<include refid="commonSelect" />
+	where id=#{id}
+</select>
+
+<select id="queryPage" resultMap="recycleResourceResult">
+	<include refid="commonSelect"/>
+	order by self.create_time desc
+</select>
+</mapper>
