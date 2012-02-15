@@ -13,55 +13,44 @@
 	<result property="metaTitle" column="meta_title"/>
 	<association property="father" column="father_id" javaType="Channel" resultMap="fatherChannelResult" />
 	<collection property="children" ofType="Channel" resultMap="childrenChannelResult"/>
+	<association property="selfTemplate" column="self_template_id" javaType="Template" resultMap="templateOnChannelResult" />
 </resultMap>
 
 <resultMap type="Channel" id="fatherChannelResult">
 	<id property="id" column="father_id"/>
-	<result property="name" column="father_name"/>
-	<result property="path" column="father_path"/>
-	<result property="priority" column="father_priority"/>
-	<result property="metaKeyword" column="father_meta_keyword"/>
-	<result property="metaTitle" column="father_meta_title"/>
-	<result property="metaDescr" column="father_meta_descr"/>
 </resultMap>
 <resultMap type="Channel" id="childrenChannelResult">
 	<id property="id" column="child_id"/>
-	<result property="name" column="child_name"/>
-	<result property="path" column="child_path"/>
-	<result property="priority" column="child_priority"/>
-	<result property="metaTitle" column="child_meta_title"/>
-	<result property="metaKeyword" column="child_meta_keyword"/>
-	<result property="metaDescr" column="child_meta_descr"/>
+</resultMap>
+
+<resultMap type="Template" id="templateOnChannelResult">
+	<id property="id" column="template_id"/>
+	<result property="name" column="template_name"/>
+	<result property="path" column="template_path"/>
 </resultMap>
 
 <sql id="commonSelect">
 	select   
 		self.*,
 		father.id as father_id,
-		father.name as father_name,
-		father.path as father_path,
-		father.meta_keyword as father_meta_keyword,
-		father.meta_title as father_mata_title,
-		father.meta_descr as father_meta_descr,
 		children.id as child_id,
-		children.name as child_name,
-		children.path as child_path,
-		children.meta_title as child_meta_title,
-		children.meta_keyword as child_meta_keyword,
-		children.meta_descr as child_meta_descr 
+		template.id as template_id,
+		template.name as template_name,
+		template.path as template_path  
 	from mimo_cms_channel self 
 	left join mimo_cms_channel father on self.father_id=father.id 
-	left join mimo_cms_channel children on self.id=children.father_id
+	left join mimo_cms_channel children on self.id=children.father_id 
+	left join mimo_cms_template template on self.self_template=template.id
 </sql>
 
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
-	insert into mimo_cms_channel(name,path,priority,meta_keyword,meta_descr,meta_title,father_id)
-				values(#{name},#{path},#{priority},#{metaKeyword},#{metaDescr},#{metaTitle},#{father.id})
+	insert into mimo_cms_channel(name,path,priority,meta_keyword,meta_descr,meta_title,self_template_id,father_id)
+				values(#{name},#{path},#{priority},#{metaKeyword},#{metaDescr},#{metaTitle},#{template.id},#{father.id})
 </insert>
 <update id="update" >
 	update mimo_cms_channel
 			set name=#{name},path=#{path},priority=#{priority},
-					meta_keyword=#{metaKeyword},meta_descr=#{metaDescr},
+					meta_keyword=#{metaKeyword},meta_descr=#{metaDescr},self_template_id=#{template.id},
 					father_id=#{father.id},meta_title=#{metaTitle} 
 			where id=#{id}
 </update>
@@ -70,25 +59,29 @@
 <delete id="delete" >
 	delete from mimo_cms_channel where id=#{id}
 </delete>
-<delete id="deleteById" >
-	delete from mimo_cms_channel where id=#{id}
-</delete>
 
 <select id="queryUniqueByPath" parameterType="string" resultMap="channelResult">
 	 <include refid="commonSelect"/>
 	where self.path=#{path}
 </select>
+
 <select id="get" resultMap="channelResult">
 	<include refid="commonSelect"/>
 	where self.id=#{id}
 </select>
+
 <select id="query" resultMap="channelResult">
 	<include refid="commonSelect"/>
 	order by self.priority asc
 </select>
+
+<select id="queryChildren" resultMap="channelResult">
+	<include refid="commonSelect"/>
+	where self.father_id=#{id}
+</select>
+
 <select id="queryPage" resultMap="channelResult">
 	<include refid="commonSelect"/> 
-	
 	<where>
 		<if test="params.name != '' and params.name != null">
 			self.name like concat(concat('%',#{params.name}),'%')
@@ -99,13 +92,7 @@
 <select id="queryTop" resultMap="channelResult">
 	select   
 		self.*,
-		children.id as child_id,
-		children.name as child_name,
-		children.path as child_path,
-		children.priority as child_priority,
-		children.meta_title as child_mata_title,
-		children.meta_keyword as child_meta_keyword,
-		children.meta_descr as child_meta_descr,
+		children.id as child_id  
 	from mimo_cms_channel self 
 	left join mimo_cms_channel children on self.id=children.father_id 
 	where self.father_id is null 
