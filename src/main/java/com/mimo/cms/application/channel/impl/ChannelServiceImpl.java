@@ -103,7 +103,7 @@ public class ChannelServiceImpl extends LifecycleEventHandler implements Channel
 	@Override
 	@Monitoring(action = "删除栏目")
 	protected void onDelete(Object source, long timestamp) {
-		channelRepository.delete(((Channel) source).getId());
+		channelRepository.delete(((Channel) source));
 	}
 
 	/*
@@ -115,6 +115,12 @@ public class ChannelServiceImpl extends LifecycleEventHandler implements Channel
 	@Monitoring(action = "创建栏目")
 	protected void onCreate(Object source, long timestamp) {
 		channelRepository.save((Channel) source);
+	}
+
+	@Override
+	protected void onAcquire(Object source, long timestamp) {
+		Channel entity = (Channel) source;
+		channelRepository.acquire(entity);
 	}
 
 	/*
