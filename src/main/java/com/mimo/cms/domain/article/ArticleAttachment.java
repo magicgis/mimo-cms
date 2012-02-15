@@ -84,10 +84,12 @@ public class ArticleAttachment extends AbstractLifecycleAwareObject<ArticleAttac
 	 * @return
 	 */
 	public ArticleAttachment selfAdjusting(Configure conf) {
+		if (StringUtils.isBlank(getPath())) {
+			String relativePath = StringUtils.substringAfter(conf.getAttachmentPath(), conf.getRootPath());
+			String path = FileUtils.joinPaths(relativePath, getArticle().getId(), getName());
+			setPath(PathUtils.asUnix(path));
+		}
 
-		String relativePath = StringUtils.substringAfter(conf.getAttachmentPath(), conf.getRootPath());
-		String path = FileUtils.joinPaths(relativePath, getArticle().getId(), getName());
-		setPath(PathUtils.asUnix(path));
 		this.fullPath = FileUtils.joinPaths(conf.getRootPath(), getPath());
 		return this;
 	}
