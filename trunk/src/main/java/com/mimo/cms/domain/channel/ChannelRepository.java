@@ -31,7 +31,6 @@ public interface ChannelRepository {
 	 * @return
 	 */
 	Channel get(String id);
-	
 
 	/**
 	 * 
@@ -44,11 +43,18 @@ public interface ChannelRepository {
 	 * @param channel
 	 */
 	void update(Channel channel);
+
 	/**
 	 * 
-	 * @param id
+	 * @param entity
 	 */
-	void delete(String id);
+	void delete(Channel entity);
+
+	/**
+	 * 
+	 * @param entity
+	 */
+	void acquire(Channel entity);
 
 	/**
 	 * 
@@ -62,4 +68,5 @@ public interface ChannelRepository {
 	 * @return
 	 */
 	List<Channel> query(Object object);
+
 }
