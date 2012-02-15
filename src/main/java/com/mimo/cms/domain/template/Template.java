@@ -145,7 +145,7 @@ public class Template extends AbstractLifecycleAwareObject<Template> {
 		}
 
 		if (StringUtils.isNotBlank(this.fullPrePath)) {
-			new DeleteFileCommand(this.fullPrePath).execute();
+			throw new IllegalStateException("Must call selfAdjusting() before modify!");
 		}
 
 		setModifyTime(System.currentTimeMillis());
@@ -159,6 +159,7 @@ public class Template extends AbstractLifecycleAwareObject<Template> {
 	 */
 	@Override
 	protected void afterModify() {
+		new DeleteFileCommand(this.fullPrePath).execute();
 		new FileCommandInvoker().command(new MakeFileCommand(this.fullPath))
 								.command(new WriteStringToFileCommand(this.fullPath, getContent(), getEncode()))
 								.invoke();
