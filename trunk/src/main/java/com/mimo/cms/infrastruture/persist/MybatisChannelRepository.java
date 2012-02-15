@@ -29,22 +29,29 @@ public class MybatisChannelRepository extends MybatisRepositorySupport<String, C
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mimo.cms.domain.channel.ChannelRepository#delete(java.lang.String)
-	 */
-	@Override
-	public void delete(String id) {
-		getSqlSession().delete(getNamespace().concat(".deleteById"), id);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.mimo.cms.domain.channel.ChannelRepository#queryTop()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Channel> queryTop() {
-		return getSqlSession().selectList(getNamespace().concat("queryTop"));
+		return getSqlSession().selectList(getNamespace().concat(".queryTop"));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.mimo.cms.domain.channel.ChannelRepository#acquire(com.mimo.cms.domain.channel.Channel)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void acquire(Channel entity) {
+		if(entity.hasFather()){
+			Channel father = get(entity.getFather().getId());
+			entity.setFather(father);
+		}
+		
+		List<Channel> children = getSqlSession().selectList(getNamespace().concat(".queryChildren"), entity.getId());
+		entity.setChildren(children);
 	}
 
 	/*
