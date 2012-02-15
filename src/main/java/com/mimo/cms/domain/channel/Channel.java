@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.mimo.cms.domain.template.Template;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 
 /**
@@ -18,6 +19,8 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 
 	private Channel father;
 	private List<Channel> children = new ArrayList<Channel>(0);
+
+	private Template selfTemplate;
 
 	private String name;
 	private String path;
@@ -56,6 +59,15 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 		}
 
 		return !getChildren().isEmpty();
+	}
+
+	public Template getSelfTemplate() {
+		return selfTemplate;
+	}
+
+	public Channel setSelfTemplate(Template selfTemplate) {
+		this.selfTemplate = selfTemplate;
+		return this;
 	}
 
 	public String getName() {
@@ -144,6 +156,20 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 	@Override
 	protected boolean beforeModify() {
 		selfCheck();
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.mimo.core.domain.event.AbstractLifecycleAwareObject#beforeAcquire()
+	 */
+	@Override
+	protected boolean beforeAcquire() {
+		if (!this.hasIdentity()) {
+			throw new IllegalStateException("The channel didn't has the identity!");
+		}
+
 		return true;
 	}
 
