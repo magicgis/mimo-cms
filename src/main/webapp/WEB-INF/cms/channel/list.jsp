@@ -11,7 +11,7 @@
 			location.href = "${ctx}/channel/create";
 		});
 		
-		$("#bulkDel").click(function(){
+		$("#del").click(function(){
 			var items = mimo.select();
 			if(items && items.length > 0 && confirm("你确定要删除这些内容吗?")){
 				
@@ -67,7 +67,7 @@
 	  <li><a id="add" href="javascript:void(0);">新增</a></li>
   </shiro:hasPermission>
   <shiro:hasPermission name="channel:delete">
-  <li><a id="bulkDel" href="javascript:void(0);">删除</a></li>
+  <li><a id="del" href="javascript:void(0);">删除</a></li>
   </shiro:hasPermission>
   </ul>
   <div class="clear"></div>
