@@ -36,6 +36,15 @@
 </td>
 </tr>
 <tr>
+<td width="240" align="right" nowrap="nowrap">模板：</td>
+<td colspan="2">
+<form:select path="selfTemplate.id">
+	<form:option value="">请选择</form:option>
+	<form:options items="${templates}" itemValue="id" itemLabel="name"/>
+</form:select>
+</td>
+</tr>
+<tr>
 <td width="240" align="right" nowrap="nowrap">访问路径：</td>
 <td colspan="2">
 	<form:input path="path" cssClass="input6 fontMar" id="path"/>&nbsp;（如：aboutus）
