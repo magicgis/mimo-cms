@@ -18,7 +18,7 @@ import freemarker.template.TemplateModel;
  * @author loudyn
  * 
  */
-public class GuestbookDirective extends PagableDirective<Guestbook> {
+public class GuestbooksDirective extends PagableDirective<Guestbook> {
 
 	@Override
 	protected Page<Guestbook> doOnPage(Environment env, Map<String, ?> params, 

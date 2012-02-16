@@ -18,7 +18,7 @@ import freemarker.template.TemplateModel;
  * @author loudyn
  * 
  */
-public class ArticleAttachmentDirective extends PagableDirective<ArticleAttachment> {
+public class ArticleAttachmentsDirective extends PagableDirective<ArticleAttachment> {
 
 	@Override
 	protected Page<ArticleAttachment> doOnPage(Environment env, Map<String, ?> params, 

@@ -20,7 +20,7 @@ import freemarker.template.TemplateScalarModel;
  * @author loudyn
  * 
  */
-public class ArticleDirective extends PagableDirective<Article> {
+public class ArticlesDirective extends PagableDirective<Article> {
 
 	public static final String CHANNEL_PARAM = "channel";
 
