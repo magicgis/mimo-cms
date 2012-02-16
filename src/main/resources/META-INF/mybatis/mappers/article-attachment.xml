@@ -51,6 +51,5 @@
 </select>
 <select id="queryPage" resultMap="articleAttachmentResult">
 	<include refid="commonSelect"/>
-	order by self.create_time desc 
 </select>
 </mapper>

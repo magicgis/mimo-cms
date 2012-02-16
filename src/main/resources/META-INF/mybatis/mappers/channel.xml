@@ -11,9 +11,9 @@
 	<result property="metaKeyword" column="meta_keyword"/>
 	<result property="metaDescr" column="meta_descr"/>
 	<result property="metaTitle" column="meta_title"/>
-	<association property="father" column="father_id" javaType="Channel" resultMap="fatherChannelResult" />
+	<association property="father" column="father_id" resultMap="fatherChannelResult" />
+	<association property="selfTemplate" column="self_template_id" resultMap="templateOnChannelResult" />
 	<collection property="children" ofType="Channel" resultMap="childrenChannelResult"/>
-	<association property="selfTemplate" column="self_template_id" javaType="Template" resultMap="templateOnChannelResult" />
 </resultMap>
 
 <resultMap type="Channel" id="fatherChannelResult">
@@ -40,17 +40,17 @@
 	from mimo_cms_channel self 
 	left join mimo_cms_channel father on self.father_id=father.id 
 	left join mimo_cms_channel children on self.id=children.father_id 
-	left join mimo_cms_template template on self.self_template=template.id
+	left join mimo_cms_template template on self.self_template_id=template.id
 </sql>
 
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
 	insert into mimo_cms_channel(name,path,priority,meta_keyword,meta_descr,meta_title,self_template_id,father_id)
-				values(#{name},#{path},#{priority},#{metaKeyword},#{metaDescr},#{metaTitle},#{template.id},#{father.id})
+				values(#{name},#{path},#{priority},#{metaKeyword},#{metaDescr},#{metaTitle},#{selfTemplate.id},#{father.id})
 </insert>
 <update id="update" >
 	update mimo_cms_channel
 			set name=#{name},path=#{path},priority=#{priority},
-					meta_keyword=#{metaKeyword},meta_descr=#{metaDescr},self_template_id=#{template.id},
+					meta_keyword=#{metaKeyword},meta_descr=#{metaDescr},self_template_id=#{selfTemplate.id},
 					father_id=#{father.id},meta_title=#{metaTitle} 
 			where id=#{id}
 </update>
@@ -92,9 +92,13 @@
 <select id="queryTop" resultMap="channelResult">
 	select   
 		self.*,
-		children.id as child_id  
+		children.id as child_id,
+		template.id as template_id,
+		template.name as template_name,
+		template.path as template_path  
 	from mimo_cms_channel self 
 	left join mimo_cms_channel children on self.id=children.father_id 
+	left join mimo_cms_template template on self.self_template=template.id 
 	where self.father_id is null 
 	order by self.priority asc
 </select>

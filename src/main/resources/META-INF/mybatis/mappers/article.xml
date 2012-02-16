@@ -70,7 +70,6 @@
 		self.title as title,
 		self.source as source,
 		self.priority as priority,
-		self.status as status,
 		self.forbid_comments as forbid_comments,
 		self.on_top as on_top,
 		self.modify_time as modify_time,
@@ -156,13 +155,23 @@
 	<include refid="lazySelect"/>
 	order by self.on_top desc,self.priority desc,self.modify_time desc 
 </select>
-<select id="queryPage" resultMap="lazyArticleResult">
+
+<select id="queryPage" resultMap="articleResult">
+	<include refid="commonSelect"/> 
+	<where>
+		<if test="params.status != null">
+			self.status=#{params.status} 
+		</if>
+	</where>
+</select>
+
+<select id="lazyQueryPage" resultMap="lazyArticleResult">
 	<include refid="lazySelect"/> 
 	<where>
 		<if test="params.status != null">
 			self.status=#{params.status} 
 		</if>
 	</where>
-	order by self.on_top desc,self.priority desc,self.modify_time desc 
 </select>
+
 </mapper>

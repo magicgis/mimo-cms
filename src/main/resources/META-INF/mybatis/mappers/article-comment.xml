@@ -49,6 +49,5 @@
 </select>
 <select id="queryPage" resultMap="articleCommentResult">
 	<include refid="commonSelect"/>
-	order by self.create_time desc 
 </select>
 </mapper>

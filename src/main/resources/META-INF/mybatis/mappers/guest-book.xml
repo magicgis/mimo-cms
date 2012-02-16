@@ -38,9 +38,8 @@
 	<include refid="commonSelect"/>
 	<where>
 		<if test="params.email != null and params.email != '' ">
-		self.email like concat(concat('%',#{params.email}),'%') 
+			self.email like concat(concat('%',#{params.email}),'%') 
 		</if>
 	</where>
-	order by self.create_time desc 
 </select>
 </mapper>

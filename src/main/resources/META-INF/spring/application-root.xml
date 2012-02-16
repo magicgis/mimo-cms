@@ -60,6 +60,8 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	<bean id="springBeanHolder" class="com.mimo.cms.infrastruture.SpringBeanHolder" lazy-init="false" />
+	
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 	<aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
 	
