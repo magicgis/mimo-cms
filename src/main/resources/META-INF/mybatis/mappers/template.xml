@@ -35,6 +35,12 @@
 	from mimo_cms_template self
 </sql>
 
+<sql id="templateOrderBy">
+	<if test="order == null or order == ''">
+		order by self.modify_time desc,self.create_time desc
+	</if>
+</sql>
+
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
 	insert into mimo_cms_template(name,path,encode,content,create_time,modify_time) 
 			values(#{name},#{path},#{encode},#{content},#{createTime},#{modifyTime})				
@@ -54,11 +60,11 @@
 </select>
 <select id="query" resultMap="lazyTemplateResult">
 	<include refid="lazySelect"/>
-	order by self.modify_time desc
+	<include refid="templateOrderBy"/>
 </select>
 
 <select id="queryPage" resultMap="lazyTemplateResult">
 	<include refid="lazySelect"/>
-	order by self.modify_time desc 
+	<include refid="templateOrderBy"/>
 </select>
 </mapper>
