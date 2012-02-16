@@ -65,6 +65,23 @@
 	<beans:bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<beans:property name="defaultEncoding" value="utf-8"></beans:property>
 		<beans:property name="templateLoaderPath" value="/"></beans:property>
+		<beans:property name="freemarkerVariables">
+			<beans:map>
+				<beans:entry key="cms_article">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticleDirective" />
+				</beans:entry>
+				<beans:entry key="cms_article_comment">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticleCommentDirective" />
+				</beans:entry>
+				<beans:entry key="cms_article_attachment">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticleAttachmentDirective" />
+				</beans:entry>
+				<beans:entry key="cms_guestbook">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.GuestbookDirective" />
+				</beans:entry>
+				
+			</beans:map>
+		</beans:property>
 		<beans:property name="freemarkerSettings">
 			<beans:map>
 				<beans:entry key="number_format">
