@@ -7,6 +7,7 @@
 	<id property="id" column="id"/>
 	<result property="name" column="name"/>
 	<result property="path" column="path"/>
+	<result property="about" column="about"/>
 	<result property="priority" column="priority"/>
 	<result property="metaKeyword" column="meta_keyword"/>
 	<result property="metaDescr" column="meta_descr"/>
@@ -52,12 +53,12 @@
 </sql>
 
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
-	insert into mimo_cms_channel(name,path,priority,meta_keyword,meta_descr,meta_title,self_template_id,father_id)
-				values(#{name},#{path},#{priority},#{metaKeyword},#{metaDescr},#{metaTitle},#{selfTemplate.id},#{father.id})
+	insert into mimo_cms_channel(name,path,about,priority,meta_keyword,meta_descr,meta_title,self_template_id,father_id)
+				values(#{name},#{path},#{about},#{priority},#{metaKeyword},#{metaDescr},#{metaTitle},#{selfTemplate.id},#{father.id})
 </insert>
 <update id="update" >
 	update mimo_cms_channel
-			set name=#{name},path=#{path},priority=#{priority},
+			set name=#{name},path=#{path},about=#{about},priority=#{priority},
 					meta_keyword=#{metaKeyword},meta_descr=#{metaDescr},self_template_id=#{selfTemplate.id},
 					father_id=#{father.id},meta_title=#{metaTitle} 
 			where id=#{id}
