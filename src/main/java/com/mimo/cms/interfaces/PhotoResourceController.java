@@ -46,6 +46,7 @@ public class PhotoResourceController extends ControllerSupport {
 	public static class PhotoUploadMessage {
 		private String url;
 		private String state;
+		private String message;
 
 		private PhotoUploadMessage(){
 		}
@@ -68,6 +69,16 @@ public class PhotoResourceController extends ControllerSupport {
 			return this;
 		}
 		
+		
+		public String getMessage() {
+			return message;
+		}
+
+		protected PhotoUploadMessage setMessage(String message) {
+			this.message = message;
+			return this;
+		}
+
 		public PhotoUploadMessage success(){
 			return setState("SUCCESS");
 		}
@@ -78,6 +89,10 @@ public class PhotoResourceController extends ControllerSupport {
 		
 		public PhotoUploadMessage url(String url){
 			return setUrl(url);
+		}
+		
+		public PhotoUploadMessage msg(String msg){
+			return setMessage(msg);
 		}
 		
 		public static PhotoUploadMessage me(){
@@ -148,7 +163,7 @@ public class PhotoResourceController extends ControllerSupport {
 
 			jsonStringEnclosingWith(response, "%s", PhotoUploadMessage.me().success().url(path));
 		} catch (Exception e) {
-			jsonStringEnclosingWith(response, "%s", PhotoUploadMessage.me().error());
+			jsonStringEnclosingWith(response, "%s", PhotoUploadMessage.me().error().msg(e.getMessage()));
 		}
 	}
 
