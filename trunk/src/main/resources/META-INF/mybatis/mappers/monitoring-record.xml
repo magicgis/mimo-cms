@@ -27,7 +27,10 @@
 	<include refid="commonSelect"/>
 	<where>
 		<if test="params.actor != null and params.actor != '' ">
-		self.actor like concat(concat('%',#{params.actor}),'%') 
+			self.actor like concat(concat('%',#{params.actor}),'%') 
+		</if>
+		<if test="params.action != null and params.action != '' ">
+			self.action like concat(concat('%',#{params.action}),'%') 
 		</if>
 	</where>
 	order by self.create_time desc 

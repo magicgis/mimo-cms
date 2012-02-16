@@ -75,5 +75,10 @@
 
 <select id="queryPage" resultMap="lazyRoleResult">
 	<include refid="lazySelect"/>
+	<where>
+		<if test="params.showName != null and params.showName !='' ">
+			self.show_name like concat(concat('%',#{params.showName}),'%')
+		</if>
+	</where>
 </select>
 </mapper>

@@ -55,5 +55,10 @@
 <select id="queryPage" resultMap="articleCommentResult">
 	<include refid="commonSelect"/>
 	<include refid="articleCommentOrderBy"/>
+	<where>
+		<if test="params.author != null and params.author != ''">
+			self.author like concat(concat('%',#{params.author}),'%')
+		</if>
+	</where>
 </select>
 </mapper>
