@@ -51,7 +51,7 @@ public class ArticleServiceImpl extends LifecycleEventHandler implements Article
 	 */
 	@Override
 	public Page<Article> queryPage(Page<Article> page) {
-		return articleRepository.queryPage(page);
+		return articleRepository.lazyQueryPage(page);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.mimo.cms.domain.template.Template;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
+import com.mimo.util.FileUtils;
 
 /**
  * 
@@ -68,6 +69,14 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 	public Channel setSelfTemplate(Template selfTemplate) {
 		this.selfTemplate = selfTemplate;
 		return this;
+	}
+
+	public String getSelfTemplatePath() {
+		if (null != getSelfTemplate()) {
+			return FileUtils.getMajorName(getSelfTemplate().getPath());
+		}
+
+		return null;
 	}
 
 	public String getName() {

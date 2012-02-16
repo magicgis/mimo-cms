@@ -1,9 +1,12 @@
 package com.mimo.cms.infrastruture.persist;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.mimo.cms.domain.article.Article;
 import com.mimo.cms.domain.article.ArticleRepository;
+import com.mimo.core.orm.Page;
 import com.mimo.core.orm.mybatis.MybatisRepositorySupport;
 
 /**
@@ -22,6 +25,14 @@ public class MybatisArticleRepository extends MybatisRepositorySupport<String, A
 	@Override
 	public Article lazyGet(String id) {
 		return (Article) getSqlSession().selectOne(getNamespace().concat(".lazyGet"), id);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Page<Article> lazyQueryPage(Page<Article> page) {
+		List<Article> result = getSqlSession().selectList(getNamespace() + ".lazyQueryPage", page);
+		page.setResult(result);
+		return page;
 	}
 
 	/*

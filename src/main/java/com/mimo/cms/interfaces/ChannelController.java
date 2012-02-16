@@ -23,6 +23,7 @@ import com.mimo.cms.domain.template.Template;
 import com.mimo.core.orm.Page;
 import com.mimo.core.web.controller.CrudControllerSupport;
 import com.mimo.util.EntityUtils;
+import com.mimo.util.FileUtils;
 
 /**
  * 
@@ -34,12 +35,26 @@ import com.mimo.util.EntityUtils;
 public class ChannelController extends CrudControllerSupport<String, Channel> {
 
 	private final static String REDIRECT_LIST = "redirect:/channel/list";
-	
+
 	@Autowired
 	private ChannelService channelService;
-	
+
 	@Autowired
 	private TemplateService templateService;
+
+	/**
+	 * 
+	 * @param path
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = { "/{path}", "/{path}/view" }, method = GET)
+	public String view(@PathVariable("path") String path, Model model) {
+		Channel entity = channelService.queryUniqueByPath(path);
+		model.addAttribute(entity);
+		System.out.println(entity.getSelfTemplatePath());
+		return entity.getSelfTemplatePath();
+	}
 
 	/**
 	 * 

@@ -16,7 +16,7 @@ import com.mimo.util.ConvertUtils;
 /**
  * 
  * @author loudyn
- *
+ * 
  */
 public class Role extends AbstractLifecycleAwareObject<Role> {
 
@@ -130,7 +130,7 @@ public class Role extends AbstractLifecycleAwareObject<Role> {
 		}
 
 		List<String> permissions = new ArrayList<String>();
-		ConvertUtils.convertPropertyToList(getAuthorities(), "permission", ",", permissions);
+		ConvertUtils.convertPropertyToList(getAuthorities(), "permission", permissions);
 		return permissions;
 
 	}

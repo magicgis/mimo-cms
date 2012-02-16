@@ -109,6 +109,7 @@ public class TemplateController extends CrudControllerSupport<String, Template> 
 			entity.selfAdjusting(conf).modify();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 
