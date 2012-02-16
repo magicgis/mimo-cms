@@ -3,7 +3,6 @@ package com.mimo.cms.infrastruture.freemarker;
 import java.io.IOException;
 import java.util.Map;
 
-import com.mimo.cms.domain.article.Article;
 import com.mimo.cms.domain.guestbook.Guestbook;
 import com.mimo.cms.domain.guestbook.GuestbookRepository;
 import com.mimo.cms.infrastruture.SpringBeanHolder;
