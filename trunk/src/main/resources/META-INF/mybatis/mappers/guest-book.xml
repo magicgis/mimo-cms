@@ -16,6 +16,12 @@
 	from mimo_cms_guestbook self
 </sql>
 
+<sql id="guestbookOrderBy">
+	<if test="order == null or order == ''">
+		order by self.create_time desc
+	</if>
+</sql>
+
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
 	insert into mimo_cms_guestbook(email,content,create_time) 
 			values(#{email},#{content},#{createTime})				
@@ -41,5 +47,6 @@
 			self.email like concat(concat('%',#{params.email}),'%') 
 		</if>
 	</where>
+	<include refid="guestbookOrderBy"/>
 </select>
 </mapper>
