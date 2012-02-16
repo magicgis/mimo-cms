@@ -25,6 +25,12 @@
 	left join mimo_cms_article article on self.article_id=article.id 
 </sql>
 
+<sql id="articleCommentOrderBy">
+	<if test="order == null or order == ''">
+		order by self.create_time desc
+	</if>
+</sql>
+
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
 	insert into mimo_cms_article_comment(author,content,create_time,article_id)
 				values(#{author},#{content},#{createTime},#{article.id})
@@ -45,9 +51,10 @@
 </select>
 <select id="query" resultMap="articleCommentResult">
 	<include refid="commonSelect"/>
-	order by self.create_time desc
+	<include refid="articleCommentOrderBy"/>
 </select>
 <select id="queryPage" resultMap="articleCommentResult">
 	<include refid="commonSelect"/>
+	<include refid="articleCommentOrderBy"/>
 </select>
 </mapper>
