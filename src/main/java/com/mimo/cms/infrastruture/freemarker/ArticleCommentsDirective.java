@@ -18,7 +18,7 @@ import freemarker.template.TemplateModel;
  * @author loudyn
  * 
  */
-public class ArticleCommentDirective extends PagableDirective<ArticleComment> {
+public class ArticleCommentsDirective extends PagableDirective<ArticleComment> {
 
 	@Override
 	protected Page<ArticleComment> doOnPage(Environment env, Map<String, ?> params, TemplateModel[] loopVars, 
