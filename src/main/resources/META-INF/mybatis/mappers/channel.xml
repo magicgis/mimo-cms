@@ -19,10 +19,12 @@
 <resultMap type="Channel" id="fatherChannelResult">
 	<id property="id" column="father_id"/>
 	<result property="name" column="father_name"/>
+	<result property="path" column="father_path"/>
 </resultMap>
 <resultMap type="Channel" id="childrenChannelResult">
 	<id property="id" column="child_id"/>
 	<result property="name" column="child_name"/>
+	<result property="path" column="child_path"/>
 </resultMap>
 
 <resultMap type="Template" id="templateOnChannelResult">
@@ -36,8 +38,10 @@
 		self.*,
 		father.id as father_id,
 		father.name as father_name,
+		father.path as father_path,
 		children.id as child_id,
 		children.name as child_name,
+		children.path as child_path,
 		template.id as template_id,
 		template.name as template_name,
 		template.path as template_path  
@@ -97,6 +101,8 @@
 	select   
 		self.*,
 		children.id as child_id,
+		children.name as child_name,
+		children.path as child_path,
 		template.id as template_id,
 		template.name as template_name,
 		template.path as template_path  
