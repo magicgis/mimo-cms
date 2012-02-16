@@ -51,7 +51,6 @@
 </select>
 <select id="query" resultMap="articleCommentResult">
 	<include refid="commonSelect"/>
-	<include refid="articleCommentOrderBy"/>
 </select>
 <select id="queryPage" resultMap="articleCommentResult">
 	<include refid="commonSelect"/>

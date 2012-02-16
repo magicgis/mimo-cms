@@ -60,7 +60,6 @@
 </select>
 <select id="query" resultMap="lazyTemplateResult">
 	<include refid="lazySelect"/>
-	<include refid="templateOrderBy"/>
 </select>
 
 <select id="queryPage" resultMap="lazyTemplateResult">
