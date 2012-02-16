@@ -50,12 +50,6 @@
 			return false;
 		});
 		
-		 $(".date").each(function(){
-			 var $this = $(this);
-			 var dateAsLong = $this.text();
-	 		 $this.empty().append(mimo.formatDate(dateAsLong)+"&nbsp;");
-		  });
-		
 	});
 </script>
 </head>
