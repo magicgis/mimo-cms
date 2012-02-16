@@ -8,6 +8,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="${ctx }/resources/js/ueditor/editor_config.js"></script>
+<script type="text/javascript" src="${ctx }/resources/js/ueditor/editor_all.js"></script>
+<link rel="stylesheet" href="${ctx }/resources/js/ueditor/themes/default/ueditor.css"/>
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		// 覆盖全局的URL
+		var URL = "${ctx}/resources/js/ueditor/".replace(/\/+/,"/");
+		UEDITOR_CONFIG.UEDITOR_HOME_URL = URL;
+		var editor = new baidu.editor.ui.Editor({autoHeightEnabled:false,imagePath:"${ctx}"});
+	    editor.render("about");
+	});
+</script>
 </head>
 <body>
 <form:form method="post" modelAttribute="channel" id="form">
@@ -72,6 +85,12 @@
 <td width="240" align="right" nowrap="nowrap">meta关键字：</td>
 <td colspan="2">
 	<form:textarea path="metaKeyword" cssClass="input5 fontMar" style="margin-top: 2px; margin-bottom: 2px; height: 80px; margin-left: 2px; margin-right: 2px; width: 318px;"  />
+</td>
+</tr>
+<tr>
+<td width="240" align="right" nowrap="nowrap">关于：</td>
+<td colspan="2">
+	<form:textarea path="about" rows="30" cols="120" />
 </td>
 </tr>
 </tbody>

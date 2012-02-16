@@ -25,6 +25,7 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 
 	private String name;
 	private String path;
+	private String about;
 
 	private String metaKeyword;
 	private String metaTitle;
@@ -94,6 +95,15 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 
 	public Channel setPath(String path) {
 		this.path = path;
+		return this;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public Channel setAbout(String about) {
+		this.about = about;
 		return this;
 	}
 
