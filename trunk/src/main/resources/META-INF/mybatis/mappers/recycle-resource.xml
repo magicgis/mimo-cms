@@ -17,6 +17,11 @@
 		self.*
 	from mimo_cms_recycle_resource self
 </sql>
+<sql id="recycleResourceOrderBy">
+	<if test="order == null or order == ''">
+		order by self.create_time desc
+	</if>
+</sql>
 
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
 	insert into mimo_cms_recycle_resource(name,version,path,recycle_path,create_time) 
@@ -34,6 +39,6 @@
 
 <select id="queryPage" resultMap="recycleResourceResult">
 	<include refid="commonSelect"/>
-	order by self.create_time desc
+	<include refid="recycleResourceOrderBy"/>
 </select>
 </mapper>
