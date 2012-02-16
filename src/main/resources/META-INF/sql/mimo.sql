@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50156
 File Encoding         : 65001
 
-Date: 2012-02-13 23:51:17
+Date: 2012-02-16 18:32:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,7 +39,7 @@ CREATE TABLE `mimo_cms_article` (
   KEY `tags` (`tags`),
   KEY `status` (`status`),
   CONSTRAINT `mimo_cms_article_ibfk_1` FOREIGN KEY (`channel_id`) REFERENCES `mimo_cms_channel` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mimo_cms_article
@@ -95,6 +95,7 @@ CREATE TABLE `mimo_cms_article_mining_task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
+  `items_expression` varchar(255) NOT NULL,
   `title_expression` varchar(255) NOT NULL,
   `content_expression` varchar(255) NOT NULL,
   `source_expression` varchar(255) NOT NULL,
@@ -120,13 +121,14 @@ CREATE TABLE `mimo_cms_channel` (
   `id` int(32) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `path` varchar(16) NOT NULL,
+  `about` mediumtext,
   `priority` int(11) NOT NULL,
   `meta_keyword` tinytext,
   `meta_title` tinytext,
   `meta_descr` tinytext,
   `father_id` int(32) DEFAULT NULL,
-  `self_template_id` int(11) DEFAULT NULL,
-  `article_template_id` int(11) DEFAULT NULL,
+  `self_template_id` int(32) DEFAULT NULL,
+  `article_template_id` int(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `path` (`path`),
@@ -137,7 +139,7 @@ CREATE TABLE `mimo_cms_channel` (
   CONSTRAINT `mimo_cms_channel_ibfk_1` FOREIGN KEY (`father_id`) REFERENCES `mimo_cms_channel` (`id`) ON DELETE CASCADE,
   CONSTRAINT `mimo_cms_channel_ibfk_2` FOREIGN KEY (`self_template_id`) REFERENCES `mimo_cms_template` (`id`),
   CONSTRAINT `mimo_cms_channel_ibfk_3` FOREIGN KEY (`article_template_id`) REFERENCES `mimo_cms_template` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 -- Records of mimo_cms_channel
@@ -176,7 +178,7 @@ CREATE TABLE `mimo_cms_monitoring_record` (
   KEY `actor` (`actor`),
   KEY `action` (`action`),
   KEY `create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mimo_cms_monitoring_record
@@ -194,7 +196,7 @@ CREATE TABLE `mimo_cms_recycle_resource` (
   `recycle_path` varchar(255) NOT NULL,
   `create_time` bigint(13) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mimo_cms_recycle_resource
@@ -238,9 +240,13 @@ INSERT INTO `mimo_cms_security_authority` VALUES ('6b8a1d0c561111e1badbc8b1208a5
 INSERT INTO `mimo_cms_security_authority` VALUES ('6f6c2e22558511e1badbc8b1208a5409', '删除图片资源文件', 'photo-resource:delete');
 INSERT INTO `mimo_cms_security_authority` VALUES ('75a77701561111e1badbc8b1208a5409', '修改文章评论', 'article-comment:edit');
 INSERT INTO `mimo_cms_security_authority` VALUES ('7a9b21de553111e1badbc8b1208a5409', '下载网站安全资源文件', 'security-resource:download');
+INSERT INTO `mimo_cms_security_authority` VALUES ('7c7a286f587d11e195de360472309768', '查看文章采集任务', 'article-mining-task:list');
 INSERT INTO `mimo_cms_security_authority` VALUES ('7e4bc13b553011e1badbc8b1208a5409', '查看栏目', 'channel:list');
 INSERT INTO `mimo_cms_security_authority` VALUES ('8875b634562d11e1badbc8b1208a5409', '删除网站资源', 'resource:delete');
+INSERT INTO `mimo_cms_security_authority` VALUES ('8b54140e587d11e195de360472309768', '创建文章采集任务', 'article-mining-task:create');
+INSERT INTO `mimo_cms_security_authority` VALUES ('9749d24c587d11e195de360472309768', '修改文章采集任务', 'article-mining-task:edit');
 INSERT INTO `mimo_cms_security_authority` VALUES ('982f0461553011e1badbc8b1208a5409', '创建栏目', 'channel:create');
+INSERT INTO `mimo_cms_security_authority` VALUES ('a0455799587d11e195de360472309768', '删除文章采集任务', 'article-mining-task:delete');
 INSERT INTO `mimo_cms_security_authority` VALUES ('a16df686553011e1badbc8b1208a5409', '编辑栏目', 'channel:edit');
 INSERT INTO `mimo_cms_security_authority` VALUES ('a1812cb0560a11e1badbc8b1208a5409', '创建留言', 'guestbook:create');
 INSERT INTO `mimo_cms_security_authority` VALUES ('a922a95a553011e1badbc8b1208a5409', '删除栏目', 'channel:delete');
@@ -252,6 +258,7 @@ INSERT INTO `mimo_cms_security_authority` VALUES ('c847b24e553011e1badbc8b1208a5
 INSERT INTO `mimo_cms_security_authority` VALUES ('cf89ee4f553011e1badbc8b1208a5409', '删除模板', 'template:delete');
 INSERT INTO `mimo_cms_security_authority` VALUES ('ddc34a4e553011e1badbc8b1208a5409', '查看文章', 'article:list');
 INSERT INTO `mimo_cms_security_authority` VALUES ('e4788f2e561011e1badbc8b1208a5409', '查看文章评论', 'article-comment:list');
+INSERT INTO `mimo_cms_security_authority` VALUES ('e5906cd7587d11e195de360472309768', '启动文章采集任务', 'article-mining-task:run');
 INSERT INTO `mimo_cms_security_authority` VALUES ('e6f805e1553011e1badbc8b1208a5409', '创建文章', 'article:create');
 INSERT INTO `mimo_cms_security_authority` VALUES ('ed485c5d561011e1badbc8b1208a5409', '查看文章附件', 'article-attachment:list');
 INSERT INTO `mimo_cms_security_authority` VALUES ('f41f4602553011e1badbc8b1208a5409', '编辑文章', 'article:edit');
@@ -290,44 +297,49 @@ CREATE TABLE `mimo_cms_security_role_authority` (
 -- ----------------------------
 -- Records of mimo_cms_security_role_authority
 -- ----------------------------
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'b4ed4707560a11e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'a1812cb0560a11e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '3c9ff420553111e1badbc8b1208a5409');
 INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '4b7b01e3553111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'e4788f2e561011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '5bc1994d553111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '3377ef58561111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'aafc75a6560a11e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '28129b5c561111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '2a20751f553111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '375b9291554011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '44587c52558511e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '4d189dde561111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'e6f805e1553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '7e4bc13b553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '7a9b21de553111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '2d771e86560a11e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '69e85e5d553111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'c09eee18553011e1badbc8b1208a5409');
 INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '6b8a1d0c561111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '982f0461553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '75a77701561111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'c847b24e553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'cf89ee4f553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'a16df686553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '0f37e4c8561111e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'ddc34a4e553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '8875b634562d11e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'a922a95a553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'ed485c5d561011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '31125de9564911e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'b6d662d7553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '282f8ef8564911e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '5ab322b1558511e1badbc8b1208a5409');
 INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '031412c5553111e1badbc8b1208a5409');
 INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '6f6c2e22558511e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '37da5484558511e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'e4788f2e561011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '31125de9564911e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '282f8ef8564911e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '982f0461553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'a922a95a553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'a1812cb0560a11e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'b6d662d7553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'a16df686553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '375b9291554011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'e5906cd7587d11e195de360472309768');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '69e85e5d553111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '0f37e4c8561111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '44587c52558511e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '5bc1994d553111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'aafc75a6560a11e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '75a77701561111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'b4ed4707560a11e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '7e4bc13b553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '3377ef58561111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '7a9b21de553111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '2d771e86560a11e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'ddc34a4e553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '5ab322b1558511e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '9749d24c587d11e195de360472309768');
 INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'f41f4602553011e1badbc8b1208a5409');
-INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'c09eee18553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '3c9ff420553111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '2a20751f553111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'ed485c5d561011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '8875b634562d11e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'c847b24e553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'a0455799587d11e195de360472309768');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '28129b5c561111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '7c7a286f587d11e195de360472309768');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '37da5484558511e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '8b54140e587d11e195de360472309768');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', '4d189dde561111e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'cf89ee4f553011e1badbc8b1208a5409');
+INSERT INTO `mimo_cms_security_role_authority` VALUES ('10edd41d553a11e1badbc8b1208a5409', 'e6f805e1553011e1badbc8b1208a5409');
 
 -- ----------------------------
 -- Table structure for `mimo_cms_security_user`
@@ -347,7 +359,7 @@ CREATE TABLE `mimo_cms_security_user` (
 -- ----------------------------
 -- Records of mimo_cms_security_user
 -- ----------------------------
-INSERT INTO `mimo_cms_security_user` VALUES ('373b4947553c11e1badbc8b1208a5409', 'admin', '123', '');
+INSERT INTO `mimo_cms_security_user` VALUES ('373b4947553c11e1badbc8b1208a5409', 'admin', 'AZICOnu9cyUFFvBp3xi1AA==', '');
 
 -- ----------------------------
 -- Table structure for `mimo_cms_security_user_role`
@@ -382,7 +394,7 @@ CREATE TABLE `mimo_cms_template` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mimo_cms_template
