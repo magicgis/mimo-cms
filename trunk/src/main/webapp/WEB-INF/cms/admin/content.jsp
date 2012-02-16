@@ -36,6 +36,7 @@
 		<shiro:hasPermission name="article-attachment:list">
         <li><a href="${ctx}/article/attachment/list" target="right"><span class="allIco ico15"></span>文章附件管理</a></li>
 		</shiro:hasPermission>
+        <li><a href="${ctx}/article/mining-task/list" target="right"><span class="allIco ico15"></span>文章采集任务管理</a></li>
     </ul>
 </div>
 </div>
