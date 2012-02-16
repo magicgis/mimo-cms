@@ -40,6 +40,7 @@ public class ArticleMiningTaskController extends CrudControllerSupport<String, A
 	@Autowired
 	private ChannelService channelService;
 
+	@Autowired
 	private ArticleMiningTaskService miningTaskService;
 
 	private List<String> runningTaskQueue = new CopyOnWriteArrayList<String>();

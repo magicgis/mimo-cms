@@ -40,6 +40,7 @@ public class ArticleMiningTask extends AbstractLifecycleAwareObject<ArticleMinin
 	private TaskStatus status;
 	private String name;
 
+	private String itemsExpression;
 	private String titleExpression;
 	private String contentExpression;
 	private String sourceExpression;
@@ -71,6 +72,15 @@ public class ArticleMiningTask extends AbstractLifecycleAwareObject<ArticleMinin
 
 	public ArticleMiningTask setName(String name) {
 		this.name = name;
+		return this;
+	}
+
+	public String getItemsExpression() {
+		return itemsExpression;
+	}
+	
+	public ArticleMiningTask setItemsExpression(String itemsExpression) {
+		this.itemsExpression = itemsExpression;
 		return this;
 	}
 
