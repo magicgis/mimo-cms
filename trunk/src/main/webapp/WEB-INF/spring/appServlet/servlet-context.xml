@@ -79,7 +79,6 @@
 				<beans:entry key="cms_guestbook">
 					<beans:bean class="com.mimo.cms.infrastruture.freemarker.GuestbookDirective" />
 				</beans:entry>
-				
 			</beans:map>
 		</beans:property>
 		<beans:property name="freemarkerSettings">
