@@ -28,6 +28,13 @@ public interface ArticleRepository {
 	 * @param page
 	 * @return
 	 */
+	Page<Article> lazyQueryPage(Page<Article> page);
+
+	/**
+	 * 
+	 * @param page
+	 * @return
+	 */
 	Page<Article> queryPage(Page<Article> page);
 
 	/**

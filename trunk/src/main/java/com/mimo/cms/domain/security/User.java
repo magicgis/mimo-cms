@@ -56,7 +56,7 @@ public class User extends AbstractLifecycleAwareObject<User> {
 		this.accountNonLocked = accountNonLocked;
 		return this;
 	}
-	
+
 	public User lock() {
 		return setAccountNonLocked(false);
 	}
@@ -152,7 +152,7 @@ public class User extends AbstractLifecycleAwareObject<User> {
 		}
 
 		List<String> namesList = new LinkedList<String>();
-		ConvertUtils.convertPropertyToList(getRoles(), "name", ",", namesList);
+		ConvertUtils.convertPropertyToList(getRoles(), "name", namesList);
 		return new HashSet<String>(namesList);
 	}
 

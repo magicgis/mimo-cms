@@ -128,8 +128,8 @@ public class Template extends AbstractLifecycleAwareObject<Template> {
 	protected void afterCreate() {
 
 		new FileCommandInvoker().command(new MakeFileCommand(this.fullPath))
-								.command(new WriteStringToFileCommand(this.fullPath, getContent(), getEncode()))
-								.invoke();
+				.command(new WriteStringToFileCommand(this.fullPath, getContent(), getEncode()))
+				.invoke();
 	}
 
 	/*
@@ -144,10 +144,6 @@ public class Template extends AbstractLifecycleAwareObject<Template> {
 			throw new IllegalStateException("Must call selfAdjusting() before modify!");
 		}
 
-		if (StringUtils.isNotBlank(this.fullPrePath)) {
-			throw new IllegalStateException("Must call selfAdjusting() before modify!");
-		}
-
 		setModifyTime(System.currentTimeMillis());
 		return true;
 	}
@@ -159,7 +155,10 @@ public class Template extends AbstractLifecycleAwareObject<Template> {
 	 */
 	@Override
 	protected void afterModify() {
-		new DeleteFileCommand(this.fullPrePath).execute();
+		if (StringUtils.isNotBlank(this.fullPrePath)) {
+			new DeleteFileCommand(this.fullPrePath).execute();
+		}
+
 		new FileCommandInvoker().command(new MakeFileCommand(this.fullPath))
 								.command(new WriteStringToFileCommand(this.fullPath, getContent(), getEncode()))
 								.invoke();
