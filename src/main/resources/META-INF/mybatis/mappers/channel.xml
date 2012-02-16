@@ -95,6 +95,9 @@
 		<if test="params.name != '' and params.name != null">
 			self.name like concat(concat('%',#{params.name}),'%')
 		</if>
+		<if test="params.path != '' and params.path != null">
+			self.path like concat(concat('%',#{params.path}),'%')
+		</if>
 	</where>
 </select>
 

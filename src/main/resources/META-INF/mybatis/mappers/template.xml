@@ -65,5 +65,11 @@
 <select id="queryPage" resultMap="lazyTemplateResult">
 	<include refid="lazySelect"/>
 	<include refid="templateOrderBy"/>
+	<where>
+		<if test="params.name != null and params.name != ''">
+			self.name like concat(concat('%',#{params.name}),'%') 
+		</if>
+		</if>
+	</where>
 </select>
 </mapper>
