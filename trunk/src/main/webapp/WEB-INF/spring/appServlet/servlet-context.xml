@@ -67,17 +67,17 @@
 		<beans:property name="templateLoaderPath" value="/"></beans:property>
 		<beans:property name="freemarkerVariables">
 			<beans:map>
-				<beans:entry key="cms_article">
-					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticleDirective" />
+				<beans:entry key="cms_articles">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticlesDirective" />
 				</beans:entry>
-				<beans:entry key="cms_article_comment">
-					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticleCommentDirective" />
+				<beans:entry key="cms_article_comments">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticleCommentsDirective" />
 				</beans:entry>
-				<beans:entry key="cms_article_attachment">
-					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticleAttachmentDirective" />
+				<beans:entry key="cms_article_attachments">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticleAttachmentsDirective" />
 				</beans:entry>
-				<beans:entry key="cms_guestbook">
-					<beans:bean class="com.mimo.cms.infrastruture.freemarker.GuestbookDirective" />
+				<beans:entry key="cms_guestbooks">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.GuestbooksDirective" />
 				</beans:entry>
 			</beans:map>
 		</beans:property>
