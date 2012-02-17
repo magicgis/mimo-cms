@@ -111,13 +111,7 @@
 </select>
 
 <select id="queryTop" resultMap="channelResult">
-	select   
-		self.*,
-		template.id as template_id,
-		template.name as template_name,
-		template.path as template_path  
-	from mimo_cms_channel self 
-	left join mimo_cms_template template on self.self_template_id=template.id 
+	<include refid="commonSelect"/>
 	where self.father_id is null 
 	order by self.priority asc
 </select>
