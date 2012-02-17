@@ -50,7 +50,7 @@ public class ChannelController extends CrudControllerSupport<String, Channel> {
 	@RequestMapping(value = { "/{path}", "/{path}/view" }, method = GET)
 	public String view(@PathVariable("path") String path, Model model) {
 		Channel entity = channelService.queryUniqueByPath(path);
-		model.addAttribute(entity);
+		model.addAttribute(entity.acquire());
 		return entity.getSelfTemplatePath();
 	}
 

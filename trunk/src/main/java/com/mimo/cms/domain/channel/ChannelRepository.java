@@ -20,6 +20,13 @@ public interface ChannelRepository {
 
 	/**
 	 * 
+	 * @param name
+	 * @return
+	 */
+	Channel queryUniqueByName(String name);
+
+	/**
+	 * 
 	 * @param page
 	 * @return
 	 */
@@ -52,12 +59,6 @@ public interface ChannelRepository {
 
 	/**
 	 * 
-	 * @param entity
-	 */
-	void acquire(Channel entity);
-
-	/**
-	 * 
 	 * @return
 	 */
 	List<Channel> queryTop();
@@ -68,5 +69,6 @@ public interface ChannelRepository {
 	 * @return
 	 */
 	List<Channel> query(Object object);
+
 
 }
