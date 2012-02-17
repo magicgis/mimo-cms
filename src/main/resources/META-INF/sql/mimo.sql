@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50156
 File Encoding         : 65001
 
-Date: 2012-02-16 18:32:29
+Date: 2012-02-17 18:20:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,8 +38,8 @@ CREATE TABLE `mimo_cms_article` (
   KEY `create_time` (`create_time`),
   KEY `tags` (`tags`),
   KEY `status` (`status`),
-  CONSTRAINT `mimo_cms_article_ibfk_1` FOREIGN KEY (`channel_id`) REFERENCES `mimo_cms_channel` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  CONSTRAINT `mimo_cms_article_ibfk_1` FOREIGN KEY (`channel_id`) REFERENCES `mimo_cms_channel` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mimo_cms_article
@@ -100,7 +100,6 @@ CREATE TABLE `mimo_cms_article_mining_task` (
   `content_expression` varchar(255) NOT NULL,
   `source_expression` varchar(255) NOT NULL,
   `tags_expression` varchar(255) DEFAULT NULL,
-  `create_time_expression` varchar(255) DEFAULT NULL,
   `channel_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
@@ -139,7 +138,7 @@ CREATE TABLE `mimo_cms_channel` (
   CONSTRAINT `mimo_cms_channel_ibfk_1` FOREIGN KEY (`father_id`) REFERENCES `mimo_cms_channel` (`id`) ON DELETE CASCADE,
   CONSTRAINT `mimo_cms_channel_ibfk_2` FOREIGN KEY (`self_template_id`) REFERENCES `mimo_cms_template` (`id`),
   CONSTRAINT `mimo_cms_channel_ibfk_3` FOREIGN KEY (`article_template_id`) REFERENCES `mimo_cms_template` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 -- Records of mimo_cms_channel
@@ -154,7 +153,9 @@ CREATE TABLE `mimo_cms_guestbook` (
   `email` varchar(255) NOT NULL,
   `content` mediumtext NOT NULL,
   `create_time` bigint(13) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`),
+  KEY `create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -178,7 +179,7 @@ CREATE TABLE `mimo_cms_monitoring_record` (
   KEY `actor` (`actor`),
   KEY `action` (`action`),
   KEY `create_time` (`create_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mimo_cms_monitoring_record
@@ -196,7 +197,7 @@ CREATE TABLE `mimo_cms_recycle_resource` (
   `recycle_path` varchar(255) NOT NULL,
   `create_time` bigint(13) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mimo_cms_recycle_resource
@@ -394,7 +395,7 @@ CREATE TABLE `mimo_cms_template` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mimo_cms_template
