@@ -12,20 +12,9 @@
 	<result property="metaKeyword" column="meta_keyword"/>
 	<result property="metaDescr" column="meta_descr"/>
 	<result property="metaTitle" column="meta_title"/>
-	<association property="father" column="father_id" resultMap="fatherChannelResult" />
+	<association property="father" column="father_id" javaType="Channel" select="queryChannelParent" />
 	<association property="selfTemplate" column="self_template_id" resultMap="templateOnChannelResult" />
-	<collection property="children" ofType="Channel" resultMap="childrenChannelResult"/>
-</resultMap>
-
-<resultMap type="Channel" id="fatherChannelResult">
-	<id property="id" column="father_id"/>
-	<result property="name" column="father_name"/>
-	<result property="path" column="father_path"/>
-</resultMap>
-<resultMap type="Channel" id="childrenChannelResult">
-	<id property="id" column="child_id"/>
-	<result property="name" column="child_name"/>
-	<result property="path" column="child_path"/>
+	<collection property="children" javaType="Channel" ofType="Channel" select="queryChannelChildren"/>
 </resultMap>
 
 <resultMap type="Template" id="templateOnChannelResult">
@@ -37,18 +26,10 @@
 <sql id="commonSelect">
 	select   
 		self.*,
-		father.id as father_id,
-		father.name as father_name,
-		father.path as father_path,
-		children.id as child_id,
-		children.name as child_name,
-		children.path as child_path,
 		template.id as template_id,
 		template.name as template_name,
 		template.path as template_path  
 	from mimo_cms_channel self 
-	left join mimo_cms_channel father on self.father_id=father.id 
-	left join mimo_cms_channel children on self.id=children.father_id 
 	left join mimo_cms_template template on self.self_template_id=template.id
 </sql>
 
@@ -68,6 +49,27 @@
 <delete id="delete" >
 	delete from mimo_cms_channel where id=#{id}
 </delete>
+
+<select id="queryChannelChildren" resultMap="channelResult">
+	select   
+		self.*,
+		template.id as template_id,
+		template.name as template_name,
+		template.path as template_path  
+	from mimo_cms_channel self 
+	left join mimo_cms_template template on self.self_template_id=template.id 
+	where self.father_id=#{id}
+</select>
+<select id="queryChannelParent" resultMap="channelResult">
+	select   
+		self.*,
+		template.id as template_id,
+		template.name as template_name,
+		template.path as template_path  
+	from mimo_cms_channel self 
+	left join mimo_cms_template template on self.self_template_id=template.id 
+	where self.id=#{father.id}
+</select>
 
 <select id="queryUniqueByPath" parameterType="string" resultMap="channelResult">
 	 <include refid="commonSelect"/>
@@ -104,15 +106,11 @@
 <select id="queryTop" resultMap="channelResult">
 	select   
 		self.*,
-		children.id as child_id,
-		children.name as child_name,
-		children.path as child_path,
 		template.id as template_id,
 		template.name as template_name,
 		template.path as template_path  
 	from mimo_cms_channel self 
-	left join mimo_cms_channel children on self.id=children.father_id 
-	left join mimo_cms_template template on self.self_template=template.id 
+	left join mimo_cms_template template on self.self_template_id=template.id 
 	where self.father_id is null 
 	order by self.priority asc
 </select>
