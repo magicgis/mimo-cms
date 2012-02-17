@@ -117,12 +117,6 @@ public class ChannelServiceImpl extends LifecycleEventHandler implements Channel
 		channelRepository.save((Channel) source);
 	}
 
-	@Override
-	protected void onAcquire(Object source, long timestamp) {
-		Channel entity = (Channel) source;
-		channelRepository.acquire(entity);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

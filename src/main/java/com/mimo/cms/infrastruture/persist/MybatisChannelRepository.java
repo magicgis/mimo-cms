@@ -29,29 +29,22 @@ public class MybatisChannelRepository extends MybatisRepositorySupport<String, C
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.mimo.cms.domain.channel.ChannelRepository#queryUniqueByName(java.lang.String)
+	 */
+	@Override
+	public Channel queryUniqueByName(String name) {
+		return (Channel) getSqlSession().selectOne(getNamespace().concat(".queryUniqueByName"), name);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.mimo.cms.domain.channel.ChannelRepository#queryTop()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Channel> queryTop() {
 		return getSqlSession().selectList(getNamespace().concat(".queryTop"));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.mimo.cms.domain.channel.ChannelRepository#acquire(com.mimo.cms.domain.channel.Channel)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void acquire(Channel entity) {
-		if(entity.hasFather()){
-			Channel father = get(entity.getFather().getId());
-			entity.setFather(father);
-		}
-		
-		List<Channel> children = getSqlSession().selectList(getNamespace().concat(".queryChildren"), entity.getId());
-		entity.setChildren(children);
 	}
 
 	/*
