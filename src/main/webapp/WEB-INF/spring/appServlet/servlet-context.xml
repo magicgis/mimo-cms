@@ -67,6 +67,12 @@
 		<beans:property name="templateLoaderPath" value="/"></beans:property>
 		<beans:property name="freemarkerVariables">
 			<beans:map>
+				<beans:entry key="cms_channel">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ChannelDirective" />
+				</beans:entry>
+				<beans:entry key="cms_channels">
+					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ChannelsDirective" />
+				</beans:entry>
 				<beans:entry key="cms_articles">
 					<beans:bean class="com.mimo.cms.infrastruture.freemarker.ArticlesDirective" />
 				</beans:entry>
