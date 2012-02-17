@@ -12,7 +12,7 @@
 	<result property="metaKeyword" column="meta_keyword"/>
 	<result property="metaDescr" column="meta_descr"/>
 	<result property="metaTitle" column="meta_title"/>
-	<association property="father" column="father_id" javaType="Channel" select="queryChannelParent" />
+	<association property="father" column="father_id" javaType="Channel" select="queryChannelFather" />
 	<association property="selfTemplate" column="self_template_id" resultMap="templateOnChannelResult" />
 	<collection property="children" javaType="Channel" ofType="Channel" select="queryChannelChildren"/>
 </resultMap>
@@ -60,7 +60,7 @@
 	left join mimo_cms_template template on self.self_template_id=template.id 
 	where self.father_id=#{id}
 </select>
-<select id="queryChannelParent" resultMap="channelResult">
+<select id="queryChannelFather" resultMap="channelResult">
 	select   
 		self.*,
 		template.id as template_id,
@@ -70,6 +70,12 @@
 	left join mimo_cms_template template on self.self_template_id=template.id 
 	where self.id=#{father.id}
 </select>
+
+<sql id="channelOrderBy">
+	<if test="order == null or order == ''">
+		order by self.priority desc,self.id desc
+	</if>
+</sql>
 
 <select id="queryUniqueByPath" parameterType="string" resultMap="channelResult">
 	 <include refid="commonSelect"/>
@@ -83,7 +89,7 @@
 
 <select id="query" resultMap="channelResult">
 	<include refid="commonSelect"/>
-	order by self.priority asc
+	order by self.priority desc
 </select>
 
 <select id="queryChildren" resultMap="channelResult">
@@ -101,6 +107,7 @@
 			self.path like concat(concat('%',#{params.path}),'%')
 		</if>
 	</where>
+	<include refid="channelOrderBy"/> 
 </select>
 
 <select id="queryTop" resultMap="channelResult">
