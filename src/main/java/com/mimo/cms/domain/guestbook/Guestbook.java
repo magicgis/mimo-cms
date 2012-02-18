@@ -49,7 +49,7 @@ public class Guestbook extends AbstractLifecycleAwareObject<Guestbook> {
 	}
 
 	protected Guestbook selfEscape() {
-		HtmlEscapeUtils.escape(Guestbook.class, this);
+		HtmlEscapeUtils.escape(this);
 		return this;
 	}
 
