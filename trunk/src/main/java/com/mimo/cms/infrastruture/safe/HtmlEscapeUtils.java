@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Maps;
 import com.mimo.util.ExceptionUtils;
 import com.mimo.util.ReflectionUtils;
 
@@ -16,7 +20,7 @@ import com.mimo.util.ReflectionUtils;
  * 
  */
 public final class HtmlEscapeUtils {
-	private static final Map<Character, String> BASIC = new HashMap<Character, String>();
+	private static final Map<Character, String> BASIC = Maps.newHashMap();
 
 	static {
 		BASIC.put('>', "gt");
@@ -30,7 +34,7 @@ public final class HtmlEscapeUtils {
 	 * @param unsafe
 	 * @return
 	 */
-	public static String escape(String unsafe) {
+	public static String escapeString(String unsafe) {
 
 		StringBuilder safe = new StringBuilder();
 
@@ -68,23 +72,29 @@ public final class HtmlEscapeUtils {
 
 	}
 
-	private static final ConcurrentHashMap<Class<?>, List<Field>> CACHE = new ConcurrentHashMap<Class<?>, List<Field>>();
+	private static Cache<Class<?>, List<Field>> CACHE = CacheBuilder.newBuilder().concurrencyLevel(8)
+																				 .expireAfterAccess(60, TimeUnit.MINUTES)
+																				 .maximumSize(100)
+																				 .build();
 
 	/**
 	 * 
 	 * @param clazz
 	 * @param object
 	 */
-	public static void escape(Class<?> clazz, Object object) {
-
-		List<Field> fields = CACHE.get(clazz);
-
-		if (null == fields) {
-			fields = findNeccessaryFields(clazz);
-			CACHE.putIfAbsent(clazz, fields);
-		}
+	public static void escape(Object object) {
 
 		try {
+			
+			final Class<?> clazz = object.getClass();
+			List<Field> fields = CACHE.get(clazz, new Callable<List<Field>>() {
+
+				@Override
+				public List<Field> call() throws Exception {
+					return findNeccessaryFields(clazz);
+				}
+
+			});
 
 			for (Field f : fields) {
 				escapeOnField(f, object);
@@ -122,7 +132,7 @@ public final class HtmlEscapeUtils {
 	private static void escapeOnField(Field f, Object object) throws Exception {
 		String fieldName = f.getName();
 		String value = ReflectionUtils.getFieldValue(object, fieldName).toString();
-		ReflectionUtils.setFieldValue(object, f.getName(), escape(value));
+		ReflectionUtils.setFieldValue(object, f.getName(), escapeString(value));
 	}
 
 	private HtmlEscapeUtils() {

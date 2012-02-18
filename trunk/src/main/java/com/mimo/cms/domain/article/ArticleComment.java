@@ -98,7 +98,7 @@ public class ArticleComment extends AbstractLifecycleAwareObject<ArticleComment>
 	}
 
 	protected ArticleComment selfEscape() {
-		HtmlEscapeUtils.escape(ArticleComment.class, this);
+		HtmlEscapeUtils.escape(this);
 		return this;
 	}
 
