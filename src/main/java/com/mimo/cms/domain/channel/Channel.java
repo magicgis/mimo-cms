@@ -1,10 +1,10 @@
 package com.mimo.cms.domain.channel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.common.collect.Lists;
 import com.mimo.cms.domain.template.Template;
 import com.mimo.cms.infrastruture.HtmlPhotoPopulator;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
@@ -20,9 +20,10 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 	private static final long serialVersionUID = 1L;
 
 	private Channel father;
-	private List<Channel> children = new ArrayList<Channel>(0);
+	private List<Channel> children = Lists.newArrayList();
 
 	private Template selfTemplate;
+	private Template articleTemplate;
 
 	private String name;
 	private String path;
@@ -76,6 +77,23 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 	public String getSelfTemplatePath() {
 		if (null != getSelfTemplate()) {
 			return FileUtils.getMajorName(getSelfTemplate().getPath());
+		}
+
+		return null;
+	}
+
+	public Template getArticleTemplate() {
+		return articleTemplate;
+	}
+
+	public Channel setArticleTemplate(Template articleTemplate) {
+		this.articleTemplate = articleTemplate;
+		return this;
+	}
+
+	public String getArticleTemplatePath() {
+		if (null != getSelfTemplate()) {
+			return FileUtils.getMajorName(getArticleTemplate().getPath());
 		}
 
 		return null;

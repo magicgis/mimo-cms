@@ -28,6 +28,7 @@ import com.mimo.cms.interfaces.util.JsonMessage;
 import com.mimo.core.orm.Page;
 import com.mimo.core.web.AjaxUtils;
 import com.mimo.core.web.controller.CrudControllerSupport;
+import com.mimo.core.web.exception.ResourceNotFoundException;
 import com.mimo.util.EntityUtils;
 import com.mimo.util.PathUtils;
 
@@ -39,7 +40,7 @@ import com.mimo.util.PathUtils;
 @Controller
 @RequestMapping("/article")
 public class ArticleController extends CrudControllerSupport<String, Article> {
-	
+
 	private static final String REDIRECT_ONLINE_LIST = "redirect:/article/list/online";
 	private static final String REDIRECT_OFFLINE_LIST = "redirect:/article/list/offline";
 
@@ -48,6 +49,18 @@ public class ArticleController extends CrudControllerSupport<String, Article> {
 
 	@Autowired
 	private ArticleService articleService;
+
+	@RequestMapping(value = { "/{id}", "/{id}/view" }, method = GET)
+	public String view(@PathVariable("id") String id, Model model) {
+		Article entity = articleService.get(id);
+		if (null == entity) {
+			throw new ResourceNotFoundException();
+		}
+
+		Channel channel = entity.getChannel();
+		model.addAttribute(entity).addAttribute(channel);
+		return channel.getArticleTemplatePath();
+	}
 
 	/**
 	 * 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.common.base.Optional;
 import com.mimo.util.AssertUtils;
 import com.mimo.util.EntityUtils;
 import com.mimo.util.ExceptionUtils;
@@ -48,7 +49,7 @@ public class Configure implements Serializable {
 		}
 
 		// always return a clone object
-		return EntityUtils.nullSafe(conf, defaultOne());
+		return Optional.fromNullable(conf).or(defaultOne());
 	}
 
 	/**
