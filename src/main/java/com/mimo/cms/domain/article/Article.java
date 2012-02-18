@@ -3,7 +3,15 @@ package com.mimo.cms.domain.article;
 import static com.mimo.util.AssertUtils.isTrue;
 import static com.mimo.util.AssertUtils.notNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.mimo.cms.domain.channel.Channel;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
@@ -164,6 +172,45 @@ public class Article extends AbstractLifecycleAwareObject<Article> {
 	 */
 	public Article offline() {
 		return setStatus(ArticleStatus.OFFLINE);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getPhotos() {
+
+		if (StringUtils.isBlank(getContent())) {
+			return Collections.emptyList();
+		}
+
+		Document doc = Jsoup.parse(getContent());
+		Elements eles = doc.select("img[src]");
+		if (eles.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		List<String> photos = new ArrayList<String>();
+		for (Element ele : eles) {
+			photos.add(ele.attr("src"));
+		}
+		return photos;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean hasPhotos() {
+		return !getPhotos().isEmpty();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isEmptyPhotos() {
+		return getPhotos().isEmpty();
 	}
 
 	@Override
