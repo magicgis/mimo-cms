@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.common.collect.Maps;
 import com.mimo.core.orm.Page;
 import com.mimo.util.JsonUtils;
 
@@ -41,7 +42,7 @@ public abstract class PagableDirective<T> extends FreemarkerDirectiveSupport {
 
 		Page<T> page = new Page<T>().setPageSize(10);
 
-		Map<String, Object> json = null;
+		Map<String, Object> json = Maps.newHashMap();
 		TemplateScalarModel paramsModel = (TemplateScalarModel) params.get(PARAMS_PARAM);
 		if (isNotBlankScalarModel(paramsModel)) {
 			String paramsJsonString = getJsonString(paramsModel.getAsString());
@@ -107,6 +108,10 @@ public abstract class PagableDirective<T> extends FreemarkerDirectiveSupport {
 
 	@Override
 	protected final boolean beforeExecute(Environment env, Map<String, ?> params, TemplateModel[] loopVars) {
+		if (!params.containsKey(PARAMS_PARAM)) {
+			return false;
+		}
+		
 		if (loopVars.length != 1) {
 			return false;
 		}
