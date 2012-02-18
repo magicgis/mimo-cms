@@ -13,35 +13,46 @@
 	<result property="metaDescr" column="meta_descr"/>
 	<result property="metaTitle" column="meta_title"/>
 	<association property="father" column="father_id" javaType="Channel" select="queryChannelFather" />
-	<association property="selfTemplate" column="self_template_id" resultMap="templateOnChannelResult" />
+	<association property="selfTemplate" column="self_template_id" resultMap="selfTemplate" />
+	<association property="articleTemplate" column="article_template_id" resultMap="articleTemplate" />
 	<collection property="children" javaType="Channel" ofType="Channel" select="queryChannelChildren"/>
 </resultMap>
 
-<resultMap type="Template" id="templateOnChannelResult">
-	<id property="id" column="template_id"/>
-	<result property="name" column="template_name"/>
-	<result property="path" column="template_path"/>
+<resultMap type="Template" id="selfTemplate">
+	<id property="id" column="self_template_id"/>
+	<result property="name" column="self_template_name"/>
+	<result property="path" column="self_template_path"/>
+</resultMap>
+
+<resultMap type="Template" id="articleTemplate">
+	<id property="id" column="article_template_id"/>
+	<result property="name" column="article_template_name"/>
+	<result property="path" column="article_template_path"/>
 </resultMap>
 
 <sql id="commonSelect">
 	select   
 		self.*,
-		template.id as template_id,
-		template.name as template_name,
-		template.path as template_path  
+		selfTemplate.id as self_template_id,
+		selfTemplate.name as self_template_name,
+		selfTemplate.path as self_template_path,  
+		articleTemplate.id as article_template_id,
+		articleTemplate.name as article_template_name,
+		articleTemplate.path as article_template_path  
 	from mimo_cms_channel self 
-	left join mimo_cms_template template on self.self_template_id=template.id
+	left join mimo_cms_template selfTemplate on self.self_template_id=selfTemplate.id
+	left join mimo_cms_template articleTemplate on self.article_template_id=articleTemplate.id
 </sql>
 
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
-	insert into mimo_cms_channel(name,path,about,priority,meta_keyword,meta_descr,meta_title,self_template_id,father_id)
-				values(#{name},#{path},#{about},#{priority},#{metaKeyword},#{metaDescr},#{metaTitle},#{selfTemplate.id},#{father.id})
+	insert into mimo_cms_channel(name,path,about,priority,meta_keyword,meta_descr,meta_title,self_template_id,article_template_id,father_id)
+				values(#{name},#{path},#{about},#{priority},#{metaKeyword},#{metaDescr},#{metaTitle},#{selfTemplate.id},#{articleTemplate.id},#{father.id})
 </insert>
 <update id="update" >
 	update mimo_cms_channel
 			set name=#{name},path=#{path},about=#{about},priority=#{priority},
 					meta_keyword=#{metaKeyword},meta_descr=#{metaDescr},self_template_id=#{selfTemplate.id},
-					father_id=#{father.id},meta_title=#{metaTitle} 
+					article_template_id=#{articleTemplate.id},father_id=#{father.id},meta_title=#{metaTitle} 
 			where id=#{id}
 </update>
 
@@ -51,23 +62,11 @@
 </delete>
 
 <select id="queryChannelChildren" resultMap="channelResult">
-	select   
-		self.*,
-		template.id as template_id,
-		template.name as template_name,
-		template.path as template_path  
-	from mimo_cms_channel self 
-	left join mimo_cms_template template on self.self_template_id=template.id 
+	<include refid="commonSelect"/>
 	where self.father_id=#{id}
 </select>
 <select id="queryChannelFather" resultMap="channelResult">
-	select   
-		self.*,
-		template.id as template_id,
-		template.name as template_name,
-		template.path as template_path  
-	from mimo_cms_channel self 
-	left join mimo_cms_template template on self.self_template_id=template.id 
+	<include refid="commonSelect"/> 
 	where self.id=#{father.id}
 </select>
 
