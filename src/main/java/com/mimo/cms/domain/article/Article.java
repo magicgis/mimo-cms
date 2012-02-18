@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.mimo.cms.domain.channel.Channel;
-import com.mimo.cms.infrastruture.PhotoPopulator;
+import com.mimo.cms.infrastruture.HtmlPhotoPopulator;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 
 /**
@@ -174,7 +174,19 @@ public class Article extends AbstractLifecycleAwareObject<Article> {
 	 * @return
 	 */
 	public List<String> getPhotos() {
-		return PhotoPopulator.populate(getContent());
+		return HtmlPhotoPopulator.populate(getContent());
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getFirstPhoto(){
+		if(hasPhotos()){
+			return getPhotos().get(0);
+		}
+		
+		return "";
 	}
 
 	/**

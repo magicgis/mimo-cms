@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.mimo.cms.domain.template.Template;
-import com.mimo.cms.infrastruture.PhotoPopulator;
+import com.mimo.cms.infrastruture.HtmlPhotoPopulator;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 import com.mimo.util.FileUtils;
 
@@ -113,7 +113,35 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 	 * @return
 	 */
 	public List<String> getAboutPhotos() {
-		return PhotoPopulator.populate(getAbout());
+		return HtmlPhotoPopulator.populate(getAbout());
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getFirstAboutPhoto() {
+		if (hasAboutPhotos()) {
+			return getAboutPhotos().get(0);
+		}
+
+		return "";
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean hasAboutPhotos() {
+		return !getAbout().isEmpty();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isEmptyAboutPhotos() {
+		return getAbout().isEmpty();
 	}
 
 	public String getMetaKeyword() {

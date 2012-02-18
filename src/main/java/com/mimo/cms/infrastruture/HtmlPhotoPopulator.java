@@ -15,7 +15,7 @@ import org.jsoup.select.Elements;
  * @author loudyn
  *
  */
-public final class PhotoPopulator {
+public final class HtmlPhotoPopulator {
 
 	/**
 	 * 
@@ -42,6 +42,6 @@ public final class PhotoPopulator {
 		return photos;
 	}
 
-	private PhotoPopulator() {
+	private HtmlPhotoPopulator() {
 	}
 }
