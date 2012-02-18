@@ -1,7 +1,6 @@
 package com.mimo.cms.domain.security;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mimo.cms.infrastruture.safe.MD5HashUtils;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 import com.mimo.util.ConvertUtils;
@@ -28,8 +28,8 @@ public class User extends AbstractLifecycleAwareObject<User> {
 	private String password;
 	private boolean accountNonLocked = true;
 
-	private transient Map<String, String> rolesTrans = new HashMap<String, String>();
-	private Set<Role> roles = new HashSet<Role>(0);
+	private transient Map<String, String> rolesTrans = Maps.newHashMap();
+	private Set<Role> roles = Sets.newHashSet();
 
 	public String getUsername() {
 		return username;

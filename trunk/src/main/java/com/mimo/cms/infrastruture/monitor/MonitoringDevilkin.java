@@ -50,7 +50,7 @@ public class MonitoringDevilkin {
 
 		MonitoringContext context = MonitoringContext.get();
 		MonitoringRecord record = new MonitoringRecord();
-		record.setAction(monitoring.action().concat(" : ").concat("cause exception."));
+		record.setAction(monitoring.action().concat(" : ").concat(e.getMessage()));
 		record.setActor(context.getActor()).setSource(context.getSource()).setTarget(context.getTarget()).create();
 	}
 }

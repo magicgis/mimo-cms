@@ -3,7 +3,7 @@ package com.mimo.cms.interfaces.interceptor;
 import static org.apache.commons.lang.StringUtils.equalsIgnoreCase;
 import static org.apache.commons.lang.StringUtils.isBlank;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.google.common.collect.Maps;
 import com.mimo.core.domain.monitor.MonitoringContext;
 
 /**
@@ -31,7 +32,8 @@ public class MinotoringInterceptor extends HandlerInterceptorAdapter {
 
 			MonitoringContext context = MonitoringContext.get();
 			if (null == context) {
-				context = new MonitoringContext(new HashMap<String, Object>());
+				Map<String,Object> delegate = Maps.newHashMap();
+				context = new MonitoringContext(delegate);
 				MonitoringContext.set(context);
 			}
 			

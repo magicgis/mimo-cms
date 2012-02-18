@@ -22,6 +22,7 @@ import com.mimo.cms.domain.channel.Channel;
 import com.mimo.cms.domain.template.Template;
 import com.mimo.core.orm.Page;
 import com.mimo.core.web.controller.CrudControllerSupport;
+import com.mimo.core.web.exception.ResourceNotFoundException;
 import com.mimo.util.EntityUtils;
 
 /**
@@ -50,6 +51,10 @@ public class ChannelController extends CrudControllerSupport<String, Channel> {
 	@RequestMapping(value = { "/{path}", "/{path}/view" }, method = GET)
 	public String view(@PathVariable("path") String path, Model model) {
 		Channel entity = channelService.queryUniqueByPath(path);
+		if(null == entity){
+			throw new ResourceNotFoundException();
+		}
+		
 		model.addAttribute(entity.acquire());
 		return entity.getSelfTemplatePath();
 	}

@@ -1,6 +1,5 @@
 package com.mimo.cms.infrastruture;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -34,7 +35,7 @@ public final class HtmlPhotoPopulator {
 			return Collections.emptyList();
 		}
 
-		List<String> photos = new ArrayList<String>();
+		List<String> photos = Lists.newLinkedList();
 		for (Element ele : eles) {
 			photos.add(ele.attr("src"));
 		}

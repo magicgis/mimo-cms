@@ -2,8 +2,6 @@ package com.mimo.cms.domain.security;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +9,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 import com.mimo.util.ConvertUtils;
 
@@ -26,8 +25,8 @@ public class Role extends AbstractLifecycleAwareObject<Role> {
 	private String name;
 	private String showName;
 
-	private transient Map<String, String> authoritiesTrans = new HashMap<String, String>();
-	private Set<Authority> authorities = new HashSet<Authority>(0);
+	private transient Map<String, String> authoritiesTrans = Maps.newHashMap();
+	private Set<Authority> authorities = Sets.newHashSet();
 
 	public String getName() {
 		return name;

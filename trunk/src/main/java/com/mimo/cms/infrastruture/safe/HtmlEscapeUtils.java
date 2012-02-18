@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mimo.util.ExceptionUtils;
 import com.mimo.util.ReflectionUtils;
@@ -106,7 +107,7 @@ public final class HtmlEscapeUtils {
 
 	private static List<Field> findNeccessaryFields(Class<?> clazz) {
 
-		List<Field> result = new ArrayList<Field>();
+		List<Field> result = Lists.newLinkedList();
 
 		Field[] fields = clazz.getDeclaredFields();
 		if (null == fields || fields.length == 0) {
