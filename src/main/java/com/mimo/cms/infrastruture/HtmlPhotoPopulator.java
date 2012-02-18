@@ -19,16 +19,16 @@ public final class HtmlPhotoPopulator {
 
 	/**
 	 * 
-	 * @param content
+	 * @param html
 	 * @return
 	 */
-	public static List<String> populate(String content) {
+	public static List<String> populate(String html) {
 		
-		if (StringUtils.isBlank(content)) {
+		if (StringUtils.isBlank(html)) {
 			return Collections.emptyList();
 		}
 
-		Document doc = Jsoup.parse(content);
+		Document doc = Jsoup.parse(html);
 		Elements eles = doc.select("img[src]");
 		if (eles.isEmpty()) {
 			return Collections.emptyList();
