@@ -168,6 +168,9 @@
 		<if test="params.status != null">
 			self.status=#{params.status} 
 		</if>
+		<if test="params.channel != null and params.channel != ''">
+			and self.channel_id=#{params.channel}
+		</if>
 	</where>
 	<include refid="articleOrderBy"/> 
 </select>
@@ -177,6 +180,9 @@
 	<where>
 		<if test="params.status != null">
 			self.status=#{params.status} 
+		</if>
+		<if test="params.channel != null and params.channel != ''">
+			and self.channel_id=#{params.channel}
 		</if>
 	</where>
 	<include refid="articleOrderBy"/>

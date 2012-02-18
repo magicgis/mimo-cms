@@ -61,6 +61,9 @@
 		<if test="params.name != null and params.name != ''">
 			self.name like concat(concat('%',#{params.name}),'%')
 		</if>
+		<if test="params.article != null and params.article != ''">
+			and self.article_id=#{params.article}
+		</if>
 	</where>
 </select>
 </mapper>
