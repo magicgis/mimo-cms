@@ -128,8 +128,8 @@ public class Template extends AbstractLifecycleAwareObject<Template> {
 	protected void afterCreate() {
 
 		new FileCommandInvoker().command(new MakeFileCommand(this.fullPath))
-				.command(new WriteStringToFileCommand(this.fullPath, getContent(), getEncode()))
-				.invoke();
+								.command(new WriteStringToFileCommand(this.fullPath, getContent(), getEncode()))
+								.invoke();
 	}
 
 	/*
