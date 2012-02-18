@@ -15,7 +15,7 @@ import com.mimo.util.ReflectionUtils;
  * @author loudyn
  * 
  */
-public class HtmlEscapeUtils {
+public final class HtmlEscapeUtils {
 	private static final Map<Character, String> BASIC = new HashMap<Character, String>();
 
 	static {
@@ -99,7 +99,6 @@ public class HtmlEscapeUtils {
 		List<Field> result = new ArrayList<Field>();
 
 		Field[] fields = clazz.getDeclaredFields();
-
 		if (null == fields || fields.length == 0) {
 			return result;
 		}
@@ -109,7 +108,7 @@ public class HtmlEscapeUtils {
 			if (!String.class.isAssignableFrom(f.getType())) {
 				continue;
 			}
-			
+
 			if (!f.isAnnotationPresent(HtmlEscape.class)) {
 				continue;
 			}
@@ -124,5 +123,8 @@ public class HtmlEscapeUtils {
 		String fieldName = f.getName();
 		String value = ReflectionUtils.getFieldValue(object, fieldName).toString();
 		ReflectionUtils.setFieldValue(object, f.getName(), escape(value));
+	}
+
+	private HtmlEscapeUtils() {
 	}
 }

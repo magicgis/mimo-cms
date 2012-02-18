@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.mimo.cms.domain.template.Template;
+import com.mimo.cms.infrastruture.PhotoPopulator;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 import com.mimo.util.FileUtils;
 
@@ -105,6 +106,14 @@ public class Channel extends AbstractLifecycleAwareObject<Channel> {
 	public Channel setAbout(String about) {
 		this.about = about;
 		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getAboutPhotos() {
+		return PhotoPopulator.populate(getAbout());
 	}
 
 	public String getMetaKeyword() {
