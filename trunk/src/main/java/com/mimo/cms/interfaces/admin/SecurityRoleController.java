@@ -75,7 +75,7 @@ public class SecurityRoleController extends CrudControllerSupport<String, Role> 
 	public String edit(@PathVariable("id") String id, Model model) {
 		Role entity = roleService.get(id);
 		List<Authority> authorities = authorityService.query(new Object());
-		model.addAttribute(entity.transitAuths()).addAttribute("authorities", authorities).addAttribute("_method", "PUT");
+		model.addAttribute(entity.ofAuths()).addAttribute("authorities", authorities).addAttribute("_method", "PUT");
 		return formView();
 	}
 
