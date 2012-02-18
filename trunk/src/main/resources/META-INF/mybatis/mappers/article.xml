@@ -86,12 +86,12 @@
 </sql>
 
 <insert id="save" keyProperty="id" useGeneratedKeys="true" >
-	insert into mimo_cms_article(title,content,priority,tags,source,on_top,forbid_comments,status,create_time,modify_time,channel_id)
-				values(#{title},#{content},#{priority},#{tags},#{source},#{onTop},#{forbidComments},#{status},#{createTime},#{modifyTime},#{channel.id})
+	insert into mimo_cms_article(title,content,empty_photos,priority,tags,source,on_top,forbid_comments,status,create_time,modify_time,channel_id)
+				values(#{title},#{content},#{emptyPhotos},#{priority},#{tags},#{source},#{onTop},#{forbidComments},#{status},#{createTime},#{modifyTime},#{channel.id})
 </insert>
 <update id="update" >
 	update mimo_cms_article
-			set title=#{title},content=#{content},priority=#{priority},tags=#{tags},
+			set title=#{title},content=#{content},empty_photos=#{emptyPhotos},priority=#{priority},tags=#{tags},
 					source=#{source},on_top=#{onTop},forbid_comments=#{forbidComments},status=#{status},
 					modify_time=#{modifyTime},channel_id=#{channel.id}  
 			where id=#{id}
