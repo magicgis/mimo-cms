@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.common.collect.Maps;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 import com.mimo.util.ConvertUtils;
 
@@ -80,8 +81,8 @@ public class Role extends AbstractLifecycleAwareObject<Role> {
 	 * 
 	 * @return
 	 */
-	public Role transitAuths() {
-		Map<String, String> authTrans = new HashMap<String, String>();
+	public Role ofAuths() {
+		Map<String, String> authTrans = Maps.newHashMap();
 		ConvertUtils.convertPropertyToMap(getAuthorities(), "id", "id", authTrans);
 		setAuthoritiesTrans(authTrans);
 		return this;

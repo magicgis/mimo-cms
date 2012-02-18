@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.common.collect.Maps;
 import com.mimo.cms.infrastruture.safe.MD5HashUtils;
 import com.mimo.core.domain.event.AbstractLifecycleAwareObject;
 import com.mimo.util.ConvertUtils;
@@ -93,8 +94,8 @@ public class User extends AbstractLifecycleAwareObject<User> {
 		return ConvertUtils.convertPropertyToString(getRoles(), "name", ",");
 	}
 
-	public User transitRoles() {
-		Map<String, String> rolesTrans = new HashMap<String, String>();
+	public User ofRoles() {
+		Map<String, String> rolesTrans = Maps.newHashMap();
 		ConvertUtils.convertPropertyToMap(getRoles(), "id", "id", rolesTrans);
 		setRolesTrans(rolesTrans);
 		return this;

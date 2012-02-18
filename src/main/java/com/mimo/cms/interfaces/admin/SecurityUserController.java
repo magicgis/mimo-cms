@@ -83,7 +83,7 @@ public class SecurityUserController extends CrudControllerSupport<String, User> 
 	public String edit(@PathVariable("id") String id, Model model) {
 		User entity = userService.lazyGet(id);
 		List<Role> roles = roleService.query(new Object());
-		model.addAttribute(entity.transitRoles()).addAttribute("roles", roles).addAttribute("_method", "PUT");
+		model.addAttribute(entity.ofRoles()).addAttribute("roles", roles).addAttribute("_method", "PUT");
 		return formView();
 	}
 

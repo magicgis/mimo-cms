@@ -3,6 +3,8 @@ package com.mimo.cms.infrastruture.freemarker;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.mimo.core.orm.Page;
 import com.mimo.util.JsonUtils;
 
@@ -18,11 +20,13 @@ import freemarker.template.TemplateScalarModel;
  * 
  */
 public abstract class PagableDirective<T> extends FreemarkerDirectiveSupport {
+
+	public static final String PARAMS_PARAM = "params";
+
 	public static final String PAGE_ORDER_PARAM = "pageOrder";
 	public static final String PAGE_ORDERBY_PARAM = "pageOrderBy";
 	public static final String PAGE_NO_PARAM = "pageNo";
 	public static final String PAGE_SIZE_PARAM = "pageSize";
-	public static final String PAGE_PARAMS_PARAM = "params";
 
 	/*
 	 * (non-Javadoc)
@@ -36,31 +40,29 @@ public abstract class PagableDirective<T> extends FreemarkerDirectiveSupport {
 			throws TemplateException, IOException {
 
 		Page<T> page = new Page<T>().setPageSize(10);
-		TemplateScalarModel pageOrderModel = getPageOrderModel(params);
-		if (isNotBlankScalarModel(pageOrderModel)) {
-			page.setOrder(pageOrderModel.getAsString());
+
+		Map<String, Object> json = null;
+		TemplateScalarModel paramsModel = (TemplateScalarModel) params.get(PARAMS_PARAM);
+		if (isNotBlankScalarModel(paramsModel)) {
+			String paramsJsonString = getJsonString(paramsModel.getAsString());
+			json = JsonUtils.fromJsonString(paramsJsonString, Map.class);
 		}
 
-		TemplateScalarModel pageOrderByModel = getPageOrderByModel(params);
-		if (isNotBlankScalarModel(pageOrderByModel)) {
-			page.setOrderBy(pageOrderByModel.getAsString());
+		String pageNo = getPageNo(json);
+		if (StringUtils.isNotBlank(pageNo)) {
+			page.setPageNo(Integer.parseInt(pageNo));
 		}
 
-		TemplateScalarModel pageNoModel = getPageNoModel(params);
-		if (isNotBlankScalarModel(pageNoModel)) {
-			page.setPageNo(Integer.parseInt(pageNoModel.getAsString()));
+		String pageSize = getPageSize(json);
+		if (StringUtils.isNotBlank(pageSize)) {
+			page.setPageNo(Integer.parseInt(pageSize));
 		}
 
-		TemplateScalarModel pageSizeModel = getPageSizeModel(params);
-		if (isNotBlankScalarModel(pageSizeModel)) {
-			page.setPageSize(Integer.parseInt(pageSizeModel.getAsString()));
+		if (StringUtils.isNotBlank(getPageOrder(json))) {
+			page.setOrderBy(getPageOrderBy(json)).setOrder(getPageOrder(json));
 		}
 
-		TemplateScalarModel pageParamsModel = getPageParamsModel(params);
-		if (isNotBlankScalarModel(pageParamsModel)) {
-			page.setParams(JsonUtils.fromJsonString(pageParamsModel.getAsString(), Map.class));
-		}
-
+		page.setParams(json);
 		page = doOnPage(env, params, loopVars, body, page);
 		loopVars[0] = beansWrapper.wrap(page.getResult());
 		if (null != body) {
@@ -69,31 +71,42 @@ public abstract class PagableDirective<T> extends FreemarkerDirectiveSupport {
 
 	}
 
+	private String getPageNo(Map<String, Object> json) {
+		return (String) json.get(PAGE_NO_PARAM);
+	}
+
+	private String getPageSize(Map<String, Object> json) {
+		return (String) json.get(PAGE_SIZE_PARAM);
+	}
+
+	private String getPageOrder(Map<String, Object> json) {
+		return (String) json.get(PAGE_ORDER_PARAM);
+	}
+
+	private String getPageOrderBy(Map<String, Object> json) {
+		return (String) json.get(PAGE_ORDERBY_PARAM);
+	}
+
+	private String getJsonString(String jsonString) {
+
+		jsonString = jsonString.replaceAll("\\{?([^}]+)\\}?", "$1").replaceAll("\"", "")
+																   .replaceAll("'", "");
+
+		StringBuilder sb = new StringBuilder().append("{");
+		String[] params = jsonString.split(",");
+		for (String param : params) {
+			String[] keyValue = param.split(":");
+			sb.append("\"").append(keyValue[0]).append("\":\"").append(keyValue[1]).append("\",");
+		}
+
+		return sb.deleteCharAt(sb.length() - 1).append("}").toString();
+	}
+
 	protected abstract Page<T> doOnPage(Environment env, Map<String, ?> params, TemplateModel[] loopVars, TemplateDirectiveBody body,
 			Page<T> page) throws TemplateException, IOException;
 
-	protected final TemplateScalarModel getPageOrderModel(Map<String, ?> params) {
-		return (TemplateScalarModel) params.get(PAGE_ORDER_PARAM);
-	}
-
-	protected final TemplateScalarModel getPageOrderByModel(Map<String, ?> params) {
-		return (TemplateScalarModel) params.get(PAGE_ORDERBY_PARAM);
-	}
-
-	protected final TemplateScalarModel getPageNoModel(Map<String, ?> params) {
-		return (TemplateScalarModel) params.get(PAGE_NO_PARAM);
-	}
-
-	protected final TemplateScalarModel getPageSizeModel(Map<String, ?> params) {
-		return (TemplateScalarModel) params.get(PAGE_SIZE_PARAM);
-	}
-
-	protected final TemplateScalarModel getPageParamsModel(Map<String, ?> params) {
-		return (TemplateScalarModel) params.get(PAGE_PARAMS_PARAM);
-	}
-
 	@Override
-	protected boolean beforeExecute(Environment env, Map<String, ?> params, TemplateModel[] loopVars) {
+	protected final boolean beforeExecute(Environment env, Map<String, ?> params, TemplateModel[] loopVars) {
 		if (loopVars.length != 1) {
 			return false;
 		}

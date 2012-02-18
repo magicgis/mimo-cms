@@ -13,7 +13,6 @@ import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
-import freemarker.template.TemplateScalarModel;
 
 /**
  * 
@@ -22,18 +21,11 @@ import freemarker.template.TemplateScalarModel;
  */
 public class ArticlesDirective extends PagableDirective<Article> {
 
-	public static final String CHANNEL_PARAM = "channel";
-
 	@Override
 	protected Page<Article> doOnPage(Environment env, Map<String, ?> params, 
 									 TemplateModel[] loopVars, TemplateDirectiveBody body, 
 									 Page<Article> page) throws TemplateException, IOException {
-
-		TemplateScalarModel channelModel = (TemplateScalarModel) params.get(CHANNEL_PARAM);
-		if (isNotBlankScalarModel(channelModel)) {
-			page.getParams().put("channel", channelModel.getAsString());
-		}
-
+		
 		page.getParams().put("status", ArticleStatus.ONLINE);
 		ArticleRepository repository = SpringBeanHolder.getBean(ArticleRepository.class);
 		page = repository.queryPage(page);
