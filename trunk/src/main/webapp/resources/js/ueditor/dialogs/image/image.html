@@ -532,8 +532,8 @@ function uploadCompleteCallback( data ) {
 	
 	// 在当前的ueditor版本中，服务端返回的json数据必须要有state字段，并且值等于SUCCESS，才回回调此方法
 	var info = eval( "(" + data.info +")" );
-	if(info && info.url ){
-		var imgObj = {title:data.filename,url:info.url};
+	if(info && info.message ){
+		var imgObj = {title:data.filename,url:info.message};
 		imageUrls.push(imgObj);
 		imageCount --;
 	}
