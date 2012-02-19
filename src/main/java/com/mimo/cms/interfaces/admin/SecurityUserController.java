@@ -127,14 +127,14 @@ public class SecurityUserController extends CrudControllerSupport<String, User> 
 	public JsonMessage lock(HttpServletRequest request, @RequestHeader(value = "X-Requested-With", required = false) String requestWith) {
 		try {
 			if (!AjaxUtils.isAjaxRequest(requestWith)) {
-				return JsonMessage.me().error().message("Not supported operation!");
+				return JsonMessage.error().message("Not supported operation!");
 			}
 
 			String[] items = findItems(request);
 			userService.markLocked(EntityUtils.nullSafe(items, new String[] {}));
-			return JsonMessage.me().success();
+			return JsonMessage.success();
 		} catch (Exception e) {
-			return JsonMessage.me().error().message(e.getMessage());
+			return JsonMessage.error().message(e.getMessage());
 		}
 	}
 
@@ -143,14 +143,14 @@ public class SecurityUserController extends CrudControllerSupport<String, User> 
 	public JsonMessage notlock(HttpServletRequest request, @RequestHeader(value = "X-Requested-With", required = false) String requestWith) {
 		try {
 			if (!AjaxUtils.isAjaxRequest(requestWith)) {
-				return JsonMessage.me().error().message("Not supported operation!");
+				return JsonMessage.error().message("Not supported operation!");
 			}
 
 			String[] items = findItems(request);
 			userService.markNotLocked(EntityUtils.nullSafe(items, new String[] {}));
-			return JsonMessage.me().success();
+			return JsonMessage.success();
 		} catch (Exception e) {
-			return JsonMessage.me().error().message(e.getMessage());
+			return JsonMessage.error().message(e.getMessage());
 		}
 	}
 

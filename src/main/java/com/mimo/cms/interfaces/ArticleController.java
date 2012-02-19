@@ -209,14 +209,14 @@ public class ArticleController extends CrudControllerSupport<String, Article> {
 		try {
 
 			if (!AjaxUtils.isAjaxRequest(requestWith)) {
-				return JsonMessage.me().error().message("Not supported operation!");
+				return JsonMessage.error().message("Not supported operation!");
 			}
 
 			String[] items = findItems(request);
 			articleService.markOnTop(EntityUtils.nullSafe(items, new String[] {}));
-			return JsonMessage.me().success();
+			return JsonMessage.success();
 		} catch (Exception e) {
-			return JsonMessage.me().error().message(e.getMessage());
+			return JsonMessage.error().message(e.getMessage());
 		}
 	}
 
@@ -232,14 +232,14 @@ public class ArticleController extends CrudControllerSupport<String, Article> {
 		try {
 
 			if (!AjaxUtils.isAjaxRequest(requestWith)) {
-				return JsonMessage.me().error().message("Not supported operation!");
+				return JsonMessage.error().message("Not supported operation!");
 			}
 
 			String[] items = findItems(request);
 			articleService.markNotOnTop(EntityUtils.nullSafe(items, new String[] {}));
-			return JsonMessage.me().success();
+			return JsonMessage.success();
 		} catch (Exception e) {
-			return JsonMessage.me().error().message(e.getMessage());
+			return JsonMessage.error().message(e.getMessage());
 		}
 	}
 
@@ -256,14 +256,14 @@ public class ArticleController extends CrudControllerSupport<String, Article> {
 		try {
 
 			if (!AjaxUtils.isAjaxRequest(requestWith)) {
-				return JsonMessage.me().error().message("Not supported operation!");
+				return JsonMessage.error().message("Not supported operation!");
 			}
 
 			String[] items = findItems(request);
 			articleService.markNotComments(EntityUtils.nullSafe(items, new String[] {}));
-			return JsonMessage.me().success();
+			return JsonMessage.success();
 		} catch (Exception e) {
-			return JsonMessage.me().error().message(e.getMessage());
+			return JsonMessage.error().message(e.getMessage());
 		}
 	}
 
@@ -280,14 +280,14 @@ public class ArticleController extends CrudControllerSupport<String, Article> {
 		try {
 
 			if (!AjaxUtils.isAjaxRequest(requestWith)) {
-				return JsonMessage.me().error().message("Not supported operation!");
+				return JsonMessage.error().message("Not supported operation!");
 			}
 
 			String[] items = findItems(request);
 			articleService.markAllowComments(EntityUtils.nullSafe(items, new String[] {}));
-			return JsonMessage.me().success();
+			return JsonMessage.success();
 		} catch (Exception e) {
-			return JsonMessage.me().error().message(e.getMessage());
+			return JsonMessage.error().message(e.getMessage());
 		}
 	}
 
@@ -303,14 +303,14 @@ public class ArticleController extends CrudControllerSupport<String, Article> {
 		try {
 
 			if (!AjaxUtils.isAjaxRequest(requestWith)) {
-				return JsonMessage.me().error().message("Not supported operation!");
+				return JsonMessage.error().message("Not supported operation!");
 			}
 
 			String[] items = findItems(request);
 			articleService.markOnline(EntityUtils.nullSafe(items, new String[] {}));
-			return JsonMessage.me().success();
+			return JsonMessage.success();
 		} catch (Exception e) {
-			return JsonMessage.me().error().message(e.getMessage());
+			return JsonMessage.error().message(e.getMessage());
 		}
 	}
 
@@ -326,14 +326,14 @@ public class ArticleController extends CrudControllerSupport<String, Article> {
 		try {
 
 			if (!AjaxUtils.isAjaxRequest(requestWith)) {
-				return JsonMessage.me().error().message("Not supported operation!");
+				return JsonMessage.error().message("Not supported operation!");
 			}
 
 			String[] items = findItems(request);
 			articleService.markOffline(EntityUtils.nullSafe(items, new String[] {}));
-			return JsonMessage.me().success();
+			return JsonMessage.success();
 		} catch (Exception e) {
-			return JsonMessage.me().error().message(e.getMessage());
+			return JsonMessage.error().message(e.getMessage());
 		}
 	}
 

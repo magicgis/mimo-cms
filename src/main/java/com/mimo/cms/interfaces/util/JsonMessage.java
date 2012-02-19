@@ -7,41 +7,40 @@ package com.mimo.cms.interfaces.util;
  */
 public class JsonMessage {
 	
-	public enum MessageType {
+	public enum State {
 		SUCCESS, WARNNING, ERROR
 	}
 
 	private JsonMessage() {
 	}
 
-	public static JsonMessage me() {
-		return new JsonMessage();
-	}
-
-	private MessageType type;
+	private State state;
 	private String message;
 
-	public MessageType getType() {
-		return type;
+	public State getState() {
+		return state;
 	}
 
 	public String getMessage() {
 		return message;
 	}
 
-	public JsonMessage success() {
-		this.type = MessageType.SUCCESS;
-		return this;
+	public static JsonMessage success() {
+		JsonMessage me = new JsonMessage();
+		me.state = State.SUCCESS;
+		return me;
 	}
 
-	public JsonMessage warnning() {
-		this.type = MessageType.WARNNING;
-		return this;
+	public static JsonMessage warnning() {
+		JsonMessage me = new JsonMessage();
+		me.state = State.WARNNING;
+		return me;
 	}
 
-	public JsonMessage error() {
-		this.type = MessageType.ERROR;
-		return this;
+	public static JsonMessage error() {
+		JsonMessage me = new JsonMessage();
+		me.state = State.ERROR;
+		return me;
 	}
 
 	public JsonMessage message(String message) {
