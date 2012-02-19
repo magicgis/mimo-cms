@@ -47,13 +47,7 @@ public class MybatisShiroRealm extends AuthorizingRealm {
 		try {
 
 			User user = userRepository.queryUniqueByUsername(username);
-			if (null == user) {
-				throw new UnknownAccountException("No account found for user [" + username + "]");
-			}
-
-			if (!user.isAccountNonLocked()) {
-				throw new LockedAccountException("Account found for user [" + username + "] is locked");
-			}
+			checkUser(user,username);
 
 			Set<String> roleNames = user.getRoleNames();
 			Set<String> permissions = user.getPermissions();
@@ -62,6 +56,16 @@ public class MybatisShiroRealm extends AuthorizingRealm {
 			return info;
 		} catch (Exception e) {
 			throw translateException(e);
+		}
+	}
+
+	private void checkUser(User user, String username) {
+		if (null == user) {
+			throw new UnknownAccountException("No account found for user [" + username + "]");
+		}
+
+		if (!user.isAccountNonLocked()) {
+			throw new LockedAccountException("Account found for user [" + username + "] is locked");
 		}
 	}
 
@@ -91,12 +95,7 @@ public class MybatisShiroRealm extends AuthorizingRealm {
 		try {
 
 			User user = userRepository.queryUniqueByUsername(username);
-			if (null == user) {
-				throw new UnknownAccountException("No account found for user [" + username + "]");
-			}
-			if (!user.isAccountNonLocked()) {
-				throw new LockedAccountException("Account found for user [" + username + "] is locked");
-			}
+			checkUser(user, username);
 
 			return buildAuthenticationInfo(username, user.getPassword().toCharArray());
 		} catch (Exception e) {
