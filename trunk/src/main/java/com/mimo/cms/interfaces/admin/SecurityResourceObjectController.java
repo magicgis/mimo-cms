@@ -100,9 +100,9 @@ public class SecurityResourceObjectController extends ControllerSupport {
 
 			doUpload(bean, file, conf);
 
-			jsonStringEnclosingWith(response, "<textarea>%s</textarea>", JsonMessage.me().success().message("Upload ok!"));
+			jsonStringEnclosingWith(response, "<textarea>%s</textarea>", JsonMessage.success());
 		} catch (Exception e) {
-			jsonStringEnclosingWith(response, "<textarea>%s</textarea>", JsonMessage.me().error().message(e.getMessage()));
+			jsonStringEnclosingWith(response, "<textarea>%s</textarea>", JsonMessage.error().message(e.getMessage()));
 		}
 	}
 

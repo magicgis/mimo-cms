@@ -90,9 +90,9 @@ public class ArticleAttachmentController extends ControllerSupport {
 									.selfAdjusting(wrapper)
 									.create();
 
-			jsonStringEnclosingWith(response, "<textarea>%s</textarea>", JsonMessage.me().success());
+			jsonStringEnclosingWith(response, "<textarea>%s</textarea>", JsonMessage.success());
 		} catch (Exception e) {
-			jsonStringEnclosingWith(response, "<textarea>%s</textarea>", JsonMessage.me().error().message(e.getMessage()));
+			jsonStringEnclosingWith(response, "<textarea>%s</textarea>", JsonMessage.error().message(e.getMessage()));
 		}
 
 	}

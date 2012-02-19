@@ -22,6 +22,7 @@ import com.mimo.cms.domain.resource.PhotoResourceObject;
 import com.mimo.cms.domain.resource.RecycleResourceObject;
 import com.mimo.cms.domain.resource.ResourceObject;
 import com.mimo.cms.interfaces.util.ConfigureOnWeb;
+import com.mimo.cms.interfaces.util.JsonMessage;
 import com.mimo.core.orm.Page;
 import com.mimo.core.web.WebUtils;
 import com.mimo.core.web.WebUtils.ContentType;
@@ -42,64 +43,6 @@ import com.mimo.util.filecommand.impl.WriteBytesToFileCommand;
 @Controller
 @RequestMapping(value = "/photo-resource")
 public class PhotoResourceController extends ControllerSupport {
-
-	public static class PhotoUploadMessage {
-		private String url;
-		private String state;
-		private String message;
-
-		private PhotoUploadMessage(){
-		}
-		
-		public String getUrl() {
-			return url;
-		}
-
-		protected PhotoUploadMessage setUrl(String url) {
-			this.url = url;
-			return this;
-		}
-		
-		public String getState() {
-			return state;
-		}
-
-		protected PhotoUploadMessage setState(String state) {
-			this.state = state;
-			return this;
-		}
-		
-		
-		public String getMessage() {
-			return message;
-		}
-
-		protected PhotoUploadMessage setMessage(String message) {
-			this.message = message;
-			return this;
-		}
-
-		public PhotoUploadMessage success(){
-			return setState("SUCCESS");
-		}
-		
-		public PhotoUploadMessage error(){
-			return setState("ERROR");
-		}
-		
-		public PhotoUploadMessage url(String url){
-			return setUrl(url);
-		}
-		
-		public PhotoUploadMessage msg(String msg){
-			return setMessage(msg);
-		}
-		
-		public static PhotoUploadMessage me(){
-			return new PhotoUploadMessage();
-		}
-
-	}
 
 	@Autowired
 	@Qualifier("photo-resource-service")
@@ -161,9 +104,9 @@ public class PhotoResourceController extends ControllerSupport {
 
 			String path = PathUtils.asUnix(doUpload(bean, file, conf));
 
-			jsonStringEnclosingWith(response, "%s", PhotoUploadMessage.me().success().url(path));
+			jsonStringEnclosingWith(response, "%s", JsonMessage.success().message(path));
 		} catch (Exception e) {
-			jsonStringEnclosingWith(response, "%s", PhotoUploadMessage.me().error().msg(e.getMessage()));
+			jsonStringEnclosingWith(response, "%s", JsonMessage.error().message(e.getMessage()));
 		}
 	}
 
