@@ -13,7 +13,6 @@
 		<typeAlias type="com.mimo.cms.domain.article.Article" alias="Article" />
 		<typeAlias type="com.mimo.cms.domain.article.ArticleComment" alias="ArticleComment" />
 		<typeAlias type="com.mimo.cms.domain.article.ArticleAttachment" alias="ArticleAttachment" />
-		<typeAlias type="com.mimo.cms.domain.article.ArticleMiningTask" alias="ArticleMiningTask" />
 		<typeAlias type="com.mimo.cms.domain.guestbook.Guestbook" alias="Guestbook" />
 		<typeAlias type="com.mimo.cms.domain.MonitoringRecord" alias="MonitoringRecord" />
 		<typeAlias type="com.mimo.cms.domain.resource.RecycleResourceObject" alias="RecycleResource" />
