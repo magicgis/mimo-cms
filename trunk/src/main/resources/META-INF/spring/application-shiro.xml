@@ -70,12 +70,12 @@
 	            /article/comment/*/delete* = authc,perms[article-comment:delete]
 	            /article/comment/delete* = authc,perms[article-comment:delete]
 	            
-	            /article/mining-task/list* = authc,perms[article-mining-task:list]
-	            /article/mining-task/create* = authc,perms[article-mining-task:create]
-	            /article/mining-task/*/edit* = authc,perms[article-mining-task:edit]
-	            /article/mining-task/*/run* = authc,perms[article-mining-task:run]
-	            /article/mining-task/*/delete* = authc,perms[article-mining-task:delete]
-	            /article/mining-task/delete* = authc,perms[article-mining-task:delete]
+	            #/article/mining-task/list* = authc,perms[article-mining-task:list]
+	            #/article/mining-task/create* = authc,perms[article-mining-task:create]
+	            #/article/mining-task/*/edit* = authc,perms[article-mining-task:edit]
+	            #/article/mining-task/*/run* = authc,perms[article-mining-task:run]
+	            #/article/mining-task/*/delete* = authc,perms[article-mining-task:delete]
+	            #/article/mining-task/delete* = authc,perms[article-mining-task:delete]
 	            
 	            # for ueditor upload
 	            /**/up.jsp* = authc,perms[photo-resource:upload]
