@@ -1,4 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
@@ -26,6 +27,8 @@
 	            /admin/** = authc
 	            /security/** = authc,roles[admin]
 	            /conf/** = authc,roles[admin]
+	            /home/get* = authc,roles[admin]
+	            /home/put* = authc,roles[admin]
 	            /monitoring-record/list* = authc,roles[admin]
 	            
 	            /channel/list* = authc,perms[channel:list]
