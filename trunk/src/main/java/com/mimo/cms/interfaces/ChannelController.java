@@ -55,7 +55,7 @@ public class ChannelController extends CrudControllerSupport<String, Channel> {
 			throw new ResourceNotFoundException();
 		}
 		
-		model.addAttribute(entity.acquire());
+		model.addAttribute(entity);
 		return entity.getSelfTemplatePath();
 	}
 
