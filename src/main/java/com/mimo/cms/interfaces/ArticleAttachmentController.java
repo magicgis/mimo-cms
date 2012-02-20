@@ -21,6 +21,7 @@ import com.mimo.cms.application.article.ArticleService;
 import com.mimo.cms.domain.Configure;
 import com.mimo.cms.domain.article.Article;
 import com.mimo.cms.domain.article.ArticleAttachment;
+import com.mimo.cms.interfaces.exception.MaliciousRequestException;
 import com.mimo.cms.interfaces.util.ConfigureOnWeb;
 import com.mimo.cms.interfaces.util.JsonMessage;
 import com.mimo.core.orm.Page;
@@ -80,7 +81,7 @@ public class ArticleAttachmentController extends ControllerSupport {
 			Configure wrapper = confOnWeb.wrap(conf);
 
 			if (isUnacceptableFile(file, wrapper)) {
-				throw new UnsupportedOperationException("The file is unacceptable!");
+				throw new MaliciousRequestException("The file is unacceptable!");
 			}
 
 			Article article = articleService.lazyGet(articleId);

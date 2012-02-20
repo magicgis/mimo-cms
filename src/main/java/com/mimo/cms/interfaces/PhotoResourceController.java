@@ -21,6 +21,8 @@ import com.mimo.cms.domain.Configure;
 import com.mimo.cms.domain.resource.PhotoResourceObject;
 import com.mimo.cms.domain.resource.RecycleResourceObject;
 import com.mimo.cms.domain.resource.ResourceObject;
+import com.mimo.cms.interfaces.exception.BadRequestException;
+import com.mimo.cms.interfaces.exception.MaliciousRequestException;
 import com.mimo.cms.interfaces.util.ConfigureOnWeb;
 import com.mimo.cms.interfaces.util.JsonMessage;
 import com.mimo.core.orm.Page;
@@ -89,7 +91,7 @@ public class PhotoResourceController extends ControllerSupport {
 			Configure conf = confOnWeb.wrap(Configure.get());
 
 			if (isUnacceptableFile(file, conf)) {
-				throw new UnsupportedOperationException("The file is unacceptable!");
+				throw new MaliciousRequestException("The file is unacceptable!");
 			}
 
 			ResourceObject bean = resourceService.get(conf, createDefalutDirectoryIfNeccessary(pathname));
@@ -99,7 +101,7 @@ public class PhotoResourceController extends ControllerSupport {
 				bean = root;
 			}
 			if (null == bean || !bean.isDirectory()) {
-				throw new UnsupportedOperationException("Bad pathname!");
+				throw new BadRequestException();
 			}
 
 			String path = PathUtils.asUnix(doUpload(bean, file, conf));
@@ -157,7 +159,7 @@ public class PhotoResourceController extends ControllerSupport {
 		ResourceObject bean = resourceService.get(conf, createDefalutDirectoryIfNeccessary(pathname));
 
 		if (null == bean || !bean.isReadable()) {
-			throw new UnsupportedOperationException();
+			throw new BadRequestException();
 		}
 
 		try {
