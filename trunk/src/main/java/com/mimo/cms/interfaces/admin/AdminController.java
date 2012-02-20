@@ -3,7 +3,11 @@ package com.mimo.cms.interfaces.admin;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import nl.captcha.Captcha;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -31,7 +35,17 @@ public class AdminController {
 	public static final int UNKNOWN_ACCOUT_ERROR_CODE = 1;
 	public static final int LOCKED_ACCOUT_ERROR_CODE = 2;
 	public static final int AUTHENTICATION_ERROR_CODE = 4;
-	public static final int OTHER_ERROR_CODE = 8;
+	public static final int INVALID_CAPTCHA_ERROR_CODE = 8;
+	public static final int OTHER_ERROR_CODE = 16;
+
+	/**
+	 * 
+	 * @author loudyn
+	 * 
+	 */
+	private static final class InvalidCaptchaException extends RuntimeException {
+		private static final long serialVersionUID = 1L;
+	}
 
 	/**
 	 * not the login submit request,just return to login page.
@@ -49,7 +63,7 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "/login", method = POST)
-	public String login(HttpServletRequest request) {
+	public String login(HttpServletRequest request, HttpSession session) {
 
 		Subject subject = SecurityUtils.getSubject();
 
@@ -60,6 +74,7 @@ public class AdminController {
 
 		try {
 
+			checkCaptcha(request, session);
 			AuthenticationToken token = createToken(request);
 			subject.login(token);
 		} catch (Exception e) {
@@ -67,6 +82,19 @@ public class AdminController {
 		}
 
 		return "redirect:/admin/index";
+	}
+
+	private void checkCaptcha(HttpServletRequest request, HttpSession session) {
+		String captchaCode = WebUtils.getCleanParam(request, "captcha");
+		Captcha captcha = (Captcha) session.getAttribute("captcha");
+
+		if (StringUtils.isBlank(captchaCode)) {
+			throw new InvalidCaptchaException();
+		}
+
+		if (null == captcha || !captcha.isCorrect(captchaCode)) {
+			throw new InvalidCaptchaException();
+		}
 	}
 
 	private AuthenticationToken createToken(HttpServletRequest request) {
@@ -85,12 +113,17 @@ public class AdminController {
 	}
 
 	private int translateException(Exception e) {
-		if (e instanceof LockedAccountException) {
-			return LOCKED_ACCOUT_ERROR_CODE;
+
+		if (e instanceof InvalidCaptchaException) {
+			return INVALID_CAPTCHA_ERROR_CODE;
 		}
 
 		if (e instanceof UnknownAccountException) {
 			return UNKNOWN_ACCOUT_ERROR_CODE;
+		}
+
+		if (e instanceof LockedAccountException) {
+			return LOCKED_ACCOUT_ERROR_CODE;
 		}
 
 		if (e instanceof AuthenticationException) {
