@@ -25,12 +25,13 @@ public class HomeController extends ControllerSupport {
 	 * @return
 	 */
 	@RequestMapping(value = { "/", "/welcome", "/home", "/index" }, method = RequestMethod.GET)
-	public String home() {
+	public String home(Model model) {
 		Home home = Home.get();
 		if (StringUtils.isBlank(home.getTemplatePath())) {
 			throw new ResourceNotFoundException();
 		}
-
+		
+		model.addAttribute(home);
 		return home.getTemplatePath();
 	}
 
@@ -55,9 +56,9 @@ public class HomeController extends ControllerSupport {
 
 		try {
 
-			Home conf = Home.get();
-			bind(request, conf);
-			conf.put();
+			Home home = Home.get();
+			bind(request, home);
+			home.put();
 		} catch (Exception e) {
 			error(e.getMessage());
 		}
