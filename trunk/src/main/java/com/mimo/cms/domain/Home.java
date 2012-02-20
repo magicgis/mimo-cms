@@ -24,6 +24,7 @@ public final class Home implements Serializable {
 	private String metaTitle;
 	private String metaKeyword;
 	private String metaDescr;
+	private String copyRight;
 
 	private Template template;
 
@@ -60,6 +61,15 @@ public final class Home implements Serializable {
 
 	public Home setMetaDescr(String metaDescr) {
 		this.metaDescr = metaDescr;
+		return this;
+	}
+
+	public String getCopyRight() {
+		return copyRight;
+	}
+
+	public Home setCopyRight(String copyRight) {
+		this.copyRight = copyRight;
 		return this;
 	}
 
